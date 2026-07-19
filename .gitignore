@@ -1,0 +1,18 @@
+# Python
+backend/.venv/
+backend/**/__pycache__/
+backend/**/*.py[cod]
+
+# Node
+backend/node_modules/
+
+# Local run output
+backend/.runs/
+backend/test_output/
+.audisor/
+
+# Build output
+backend/dist/
+backend/build/
+backend/*.egg-info/
+backend/*.tgz

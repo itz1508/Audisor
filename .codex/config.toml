@@ -1,0 +1,8 @@
+[agents.explorer]
+config_file = "./agents/explorer.toml"
+
+[agents.reviewer]
+config_file = "./agents/reviewer.toml"
+
+[agents.validator]
+config_file = "./agents/validator.toml"

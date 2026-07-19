@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "audisor-local"
+version = "0.1.0"
+description = "Bounded local execution tool for Codex and compatible callers"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["PyYAML>=6.0,<7", "mcp>=1.27,<2"]
+
+[project.scripts]
+audisor = "audisor.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/audisor"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
