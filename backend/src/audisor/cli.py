@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from importlib.metadata import version
 import json
 from pathlib import Path
 import subprocess
@@ -11,6 +12,7 @@ from .contracts import ContractError, InspectionRequest
 from .inspection import inspect_repository
 from .replay import replay_inspection
 from .scanner import scan_report
+from .trace import trace_inspection
 from .validation import validate_inspection
 
 
@@ -41,6 +43,7 @@ def _install_codex() -> int:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(prog="audisor", description="Evidence-first issue inspection for Codex.")
+    parser.add_argument("--version", action="version", version=f"audisor-local {version('audisor-local')}")
     commands = parser.add_subparsers(dest="command", required=True)
     scan_command = commands.add_parser("scan", help="Create a deterministic ScanReport for one repository.")
     scan_command.add_argument("repository", type=Path)
@@ -57,6 +60,9 @@ def main(argv: list[str] | None = None) -> int:
     replay_command.add_argument("inspection_json", type=Path)
     replay_command.add_argument("validation_json", type=Path)
     replay_command.add_argument("--json", action="store_true")
+    trace_command = commands.add_parser("trace", help="Build a read-only parent and impact trace from immutable inspection evidence.")
+    trace_command.add_argument("inspection_json", type=Path)
+    trace_command.add_argument("--json", action="store_true")
     mcp_command = commands.add_parser("mcp", help="Run Audisor as a stdio MCP server.")
     install_command = commands.add_parser("install-codex", help="Register the installed Audisor MCP server with Codex.")
     install_command.add_argument("--json", action="store_true")
@@ -88,6 +94,13 @@ def main(argv: list[str] | None = None) -> int:
             return 0
         except ArtifactError as exc:
             _print({"status": "blocked", "error": {"code": "replay_blocked", "detail": str(exc)}}, as_json=True)
+            return 3
+    if args.command == "trace":
+        try:
+            _print(trace_inspection(read_json(args.inspection_json)), as_json=True)
+            return 0
+        except ArtifactError as exc:
+            _print({"status": "blocked", "error": {"code": "trace_blocked", "detail": str(exc)}}, as_json=True)
             return 3
     if args.command == "mcp":
         from .mcp_server import main as mcp_main

@@ -1,0 +1,6 @@
+[project]
+name = "audisor-demo-fixture"
+version = "0.0.0"
+
+[project.scripts]
+demo = "app.main:main"

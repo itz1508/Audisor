@@ -1,0 +1,1 @@
+"""Safe public demo package."""

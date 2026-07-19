@@ -4,11 +4,12 @@ build-backend = "hatchling.build"
 
 [project]
 name = "audisor-local"
-version = "0.1.0"
-description = "Bounded local execution tool for Codex and compatible callers"
+version = "0.2.0"
+description = "Evidence-first local inspection tools for Codex and compatible callers"
 readme = "README.md"
 requires-python = ">=3.11"
-dependencies = ["PyYAML>=6.0,<7", "mcp>=1.27,<2"]
+license = "Apache-2.0"
+dependencies = ["Pillow>=10,<12", "PyYAML>=6.0,<7", "mcp>=1.27,<2"]
 
 [project.scripts]
 audisor = "audisor.cli:main"

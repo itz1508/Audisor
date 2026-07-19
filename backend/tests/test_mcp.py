@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 from mcp import ClientSession, StdioServerParameters
 from mcp.client.stdio import stdio_client
+from PIL import Image
 
 from audisor.cli import _install_codex
 
@@ -29,12 +30,13 @@ class McpServerTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory)
             (root / "app.py").write_text("API_KEY = 'example-only-secret'\n", encoding="utf-8")
+            Image.new("RGB", (8, 8), (0, 0, 0)).save(root / "screen.png", format="PNG")
             parameters = StdioServerParameters(command=sys.executable, args=["-m", "audisor.cli", "mcp"])
             async with stdio_client(parameters) as (read, write):
                 async with ClientSession(read, write) as session:
                     await session.initialize()
                     tool_names = {tool.name for tool in (await session.list_tools()).tools}
-                    self.assertEqual(tool_names, {"audisor_scan", "audisor_inspect", "audisor_validate", "audisor_replay"})
+                    self.assertEqual(tool_names, {"audisor_scan", "audisor_inspect", "audisor_validate", "audisor_replay", "audisor_trace"})
                     scan = _result_json(await session.call_tool("audisor_scan", {"repository_root": str(root)}))
                     self.assertIn("findings", scan)
                     inspection = _result_json(
@@ -44,6 +46,8 @@ class McpServerTests(unittest.TestCase):
                         )
                     )
                     self.assertEqual(inspection["artifact_type"], "audisor.inspection")
+                    trace = _result_json(await session.call_tool("audisor_trace", {"inspection": inspection}))
+                    self.assertEqual(trace["artifact_type"], "audisor.trace")
                     evaluation = {"findings": []}
                     for finding in inspection["scan_report"]["findings"]:
                         if finding["type"] == "hardcoded_secret":
@@ -52,7 +56,7 @@ class McpServerTests(unittest.TestCase):
                                     "id": finding["id"],
                                     "status": "valid",
                                     "closure": "Remove the hardcoded secret.",
-                                    "scope": {"include": ["app.py"], "exclude": []},
+                                    "scope": {"include": ["app.py", "screen.png"], "exclude": []},
                                     "success_criteria": ["No hardcoded secret signal remains."],
                                     "validator": "audisor_scan",
                                 }
@@ -61,8 +65,12 @@ class McpServerTests(unittest.TestCase):
                             evaluation["findings"].append({"id": finding["id"], "status": "not_valid"})
                     validation = _result_json(await session.call_tool("audisor_validate", {"inspection": inspection, "evaluation": evaluation}))
                     self.assertEqual(validation["artifact_type"], "audisor.validation")
+                    (root / "app.py").write_text("value = 1\n", encoding="utf-8")
+                    Image.new("RGB", (8, 8), (255, 255, 255)).save(root / "screen.png", format="PNG")
                     replay = _result_json(await session.call_tool("audisor_replay", {"inspection": inspection, "validation": validation}))
                     self.assertEqual(replay["artifact_type"], "audisor.replay_result")
+                    image_diff = next(item["image_diff"] for item in replay["diff_view"] if item["path"] == "screen.png")
+                    self.assertEqual(image_diff["status"], "valid")
 
     def test_install_codex_uses_the_public_bundle_command(self) -> None:
         completed = subprocess.CompletedProcess(["codex"], 0, stdout="registered", stderr="")

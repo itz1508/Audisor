@@ -1,0 +1,11 @@
+.git
+.agents
+.codex
+backend/.venv
+backend/dist
+backend/build
+backend/__pycache__
+**/__pycache__
+demo-output
+release-output
+snapshot

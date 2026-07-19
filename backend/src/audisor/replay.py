@@ -1,8 +1,12 @@
 from __future__ import annotations
 
+import base64
 import difflib
+import io
 from pathlib import Path
 from typing import Any, Mapping
+
+from PIL import Image, ImageChops
 
 from .artifacts import ArtifactError, canonical_hash, safe_snapshot, snapshot_index, verify_artifact
 from .scanner import scan_report
@@ -34,6 +38,85 @@ def _safe_diff(path: str, before: Mapping[str, Any] | None, after: Mapping[str, 
     return "".join(difflib.unified_diff(before_lines, after_lines, fromfile=f"original/{path}", tofile=f"current/{path}"))
 
 
+def _image_metadata(value: Mapping[str, Any]) -> dict[str, Any]:
+    return {key: value[key] for key in ("width", "height", "preview_width", "preview_height") if key in value}
+
+
+def _decode_preview(value: Mapping[str, Any]) -> Image.Image | None:
+    preview = value.get("preview_png_base64")
+    if not isinstance(preview, str):
+        return None
+    try:
+        return Image.open(io.BytesIO(base64.b64decode(preview))).convert("RGBA")
+    except (ValueError, OSError):
+        return None
+
+
+def _bounded_png(image: Image.Image) -> str | None:
+    for bound in (512, 256, 128):
+        candidate = image.copy()
+        candidate.thumbnail((bound * 3, bound), Image.Resampling.LANCZOS)
+        buffer = io.BytesIO()
+        candidate.save(buffer, format="PNG", optimize=True)
+        encoded = base64.b64encode(buffer.getvalue()).decode("ascii")
+        if len(encoded) <= 256 * 1024:
+            return encoded
+    return None
+
+
+def _image_diff(before: Mapping[str, Any] | None, after: Mapping[str, Any] | None) -> dict[str, Any]:
+    if before is None or after is None:
+        return {"status": "uncertainty", "reason": "image_added_or_deleted"}
+    before_image = before.get("image")
+    after_image = after.get("image")
+    if not isinstance(before_image, Mapping) or not isinstance(after_image, Mapping):
+        return {"status": "uncertainty", "reason": "image_evidence_missing"}
+    if before_image.get("status") != "valid" or after_image.get("status") != "valid":
+        return {
+            "status": "uncertainty",
+            "reason": "image_preview_unavailable",
+            "before": _image_metadata(before_image),
+            "after": _image_metadata(after_image),
+        }
+    before_preview = _decode_preview(before_image)
+    after_preview = _decode_preview(after_image)
+    if before_preview is None or after_preview is None:
+        return {"status": "uncertainty", "reason": "image_preview_invalid"}
+    width = max(before_preview.width, after_preview.width)
+    height = max(before_preview.height, after_preview.height)
+    before_canvas = Image.new("RGBA", (width, height))
+    after_canvas = Image.new("RGBA", (width, height))
+    before_canvas.paste(before_preview, (0, 0))
+    after_canvas.paste(after_preview, (0, 0))
+    difference = ImageChops.difference(before_canvas, after_canvas)
+    changed_pixels = sum(1 for pixel in difference.getdata() if pixel != (0, 0, 0, 0))
+    total_pixels = width * height
+    mask = difference.convert("L").point(lambda value: 255 if value else 0)
+    highlight = Image.new("RGBA", (width, height), (255, 0, 0, 0))
+    highlight.putalpha(mask)
+    visual = Image.new("RGBA", (width * 3, height))
+    visual.paste(before_canvas, (0, 0))
+    visual.paste(after_canvas, (width, 0))
+    visual.paste(after_canvas, (width * 2, 0))
+    visual.alpha_composite(highlight, (width * 2, 0))
+    payload = _bounded_png(visual)
+    if payload is None:
+        return {"status": "uncertainty", "reason": "image_diff_payload_limit"}
+    return {
+        "status": "valid",
+        "comparison_basis": "normalized_preview",
+        "panels": ["before", "after", "difference"],
+        "before": _image_metadata(before_image),
+        "after": _image_metadata(after_image),
+        "comparison_width": width,
+        "comparison_height": height,
+        "changed_pixel_count": changed_pixels,
+        "total_pixel_count": total_pixels,
+        "changed_pixel_ratio": changed_pixels / total_pixels if total_pixels else 0,
+        "diff_png_base64": payload,
+    }
+
+
 def _finding_identity(item: Mapping[str, Any]) -> tuple[object, ...]:
     finding_type = item.get("type")
     file = item.get("file")
@@ -62,7 +145,16 @@ def replay_inspection(inspection: Mapping[str, Any], validation: Mapping[str, An
     changes = {path: _change_kind(before.get(path), after.get(path)) for path in sorted(set(before) | set(after))}
     changes = {path: kind for path, kind in changes.items() if kind}
     valid_scopes = {path for item in evaluation.get("findings", []) if item.get("status") == "valid" for path in item.get("scope", {}).get("include", [])}
-    diff_view = [{"path": path, "status": kind, "diff": _safe_diff(path, before.get(path), after.get(path))} for path, kind in changes.items() if path in valid_scopes]
+    diff_view = []
+    for path, kind in changes.items():
+        if path not in valid_scopes:
+            continue
+        before_item = before.get(path)
+        after_item = after.get(path)
+        if (isinstance(before_item, Mapping) and "image" in before_item) or (isinstance(after_item, Mapping) and "image" in after_item):
+            diff_view.append({"path": path, "status": kind, "image_diff": _image_diff(before_item, after_item)})
+        else:
+            diff_view.append({"path": path, "status": kind, "diff": _safe_diff(path, before_item, after_item)})
     unrelated_changes = [{"path": path, "status": kind} for path, kind in changes.items() if path not in valid_scopes]
     requested_baseline = original_report.get("baseline", {}).get("requested") if isinstance(original_report.get("baseline"), Mapping) else None
     current_report = scan_report(root, baseline=requested_baseline)

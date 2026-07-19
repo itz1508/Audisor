@@ -19,6 +19,7 @@ from .finding_registry import FINDING_REGISTRY, finding_definition
 
 _EXCLUDED = {".git", ".venv", "venv", "node_modules", "__pycache__", ".pytest_cache", "dist", "build", "snapshot"}
 _EXTENSIONS = {".py", ".json", ".toml", ".yaml", ".yml"}
+_IMAGE_EXTENSIONS = {".png", ".jpg", ".jpeg", ".webp"}
 _SECRET = re.compile(r"(?i)(?P<field>api[_-]?key|secret|token|password)\s*[:=]\s*['\"][^'\"]+['\"]")
 _PATH = re.compile(r"(?<!\w)(?:[\w.-]+/)*[\w.-]+\.(?:py|json|toml|ya?ml)(?!\w)")
 _DEPENDENCY = re.compile(r"^[A-Za-z0-9_.-]+")
@@ -73,6 +74,13 @@ def evidence_paths(root: Path) -> Iterable[Path]:
     for path in sorted(root.rglob("*")):
         relative = path.relative_to(root)
         if path.is_file() and _is_evidence_path(relative) and not _is_excluded(relative):
+            yield path
+
+
+def image_paths(root: Path) -> Iterable[Path]:
+    for path in sorted(root.rglob("*")):
+        relative = path.relative_to(root)
+        if path.is_file() and path.suffix.lower() in _IMAGE_EXTENSIONS and not _is_excluded(relative):
             yield path
 
 

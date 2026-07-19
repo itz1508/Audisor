@@ -1,0 +1,20 @@
+{
+  "name": "audisor",
+  "interface": {
+    "displayName": "Audisor"
+  },
+  "plugins": [
+    {
+      "name": "audisor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/audisor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}

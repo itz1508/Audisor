@@ -8,6 +8,13 @@ Audisor has three local, read-only stages for Codex:
   ScanReport, Dossier, Handoff, safe snapshot, and immutable hash manifest.
 - `validate` and `replay` verify the Gap Evaluation before a repair, then
   compare that original evidence with the current resolved repository.
+- `trace` turns immutable inspection evidence into a bounded static parent,
+  entrypoint, project-boundary, and direct-test map before Codex repairs.
+- `replay` includes a bounded visual diff for changed PNG, JPEG, or WebP files
+  explicitly included in a valid repair scope. It returns dimensions,
+  pixel-change evidence, and a normalized before/after/difference PNG payload.
+  Oversized, unreadable, animated, added, or deleted images remain
+  `uncertainty` rather than producing an invented visual result.
 
 ```powershell
 uv run --directory backend audisor scan D:\path\to\repo --json
@@ -19,6 +26,7 @@ repository so artifact writes cannot change the evidence being checked:
 
 ```powershell
 uv run --directory backend audisor inspect inspection-request.json --json > inspection.json
+uv run --directory backend audisor trace inspection.json --json
 uv run --directory backend audisor validate inspection.json evaluation.json --json > validation.json
 # Codex performs the approved repair here.
 uv run --directory backend audisor replay inspection.json validation.json --json
@@ -51,7 +59,8 @@ audisor install-codex
 ```
 
 Start a new Codex session after registration. It exposes four native tools:
-`audisor_scan`, `audisor_inspect`, `audisor_validate`, and `audisor_replay`.
+`audisor_scan`, `audisor_inspect`, `audisor_validate`, `audisor_replay`, and
+`audisor_trace`.
 They return the same deterministic artifacts as the CLI and never modify the
 inspected repository. `install-codex` delegates registration to
 `codex mcp add` with its package-owned Python executable and `-m audisor.cli

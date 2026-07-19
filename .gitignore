@@ -16,3 +16,5 @@ backend/dist/
 backend/build/
 backend/*.egg-info/
 backend/*.tgz
+demo-output/
+release-output/

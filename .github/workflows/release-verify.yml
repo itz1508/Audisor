@@ -1,0 +1,36 @@
+name: Release verification
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - uses: astral-sh/setup-uv@v5
+      - run: uv run --directory backend python -m unittest discover -s tests -v
+      - run: uv build --directory backend
+      - run: python scripts/release_smoke.py backend/dist/audisor_local-0.2.0-py3-none-any.whl
+      - name: Plugin structure
+        run: python -c "import json; json.load(open('plugins/audisor/.codex-plugin/plugin.json')); json.load(open('plugins/audisor/.mcp.json')); json.load(open('marketplace.json'))"
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Build image
+        run: docker build -f docker/Dockerfile -t audisor:0.2.0 .
+      - name: Read-only scan smoke
+        run: docker run --rm --read-only --user 10001:10001 -v "$PWD/demo/fixture:/workspace:ro" audisor:0.2.0 scan /workspace --json
+      - name: Docker MCP smoke
+        run: python -m pip install 'mcp>=1.27,<2' && python scripts/mcp_smoke.py --repository demo/fixture -- docker run --rm -i --read-only --user 10001:10001 -v "$PWD/demo/fixture:/workspace:ro" audisor:0.2.0 mcp

@@ -1,0 +1,31 @@
+{
+  "name": "audisor",
+  "version": "0.2.0",
+  "description": "Evidence-first local inspection and replay tools for Codex.",
+  "author": {
+    "name": "The One Shot",
+    "url": "https://github.com/itz1508"
+  },
+  "homepage": "https://github.com/itz1508/audisor",
+  "repository": "https://github.com/itz1508/audisor",
+  "license": "Apache-2.0",
+  "keywords": ["audisor", "mcp", "debugging", "validation", "codex"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Audisor",
+    "shortDescription": "Evidence-first local inspection for Codex",
+    "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+    "developerName": "The One Shot",
+    "category": "Developer Tools",
+    "capabilities": ["Read"],
+    "websiteURL": "https://github.com/itz1508/audisor",
+    "defaultPrompt": [
+      "Inspect this issue and give me evidence before I repair it.",
+      "Trace this ambiguous repair before I change code.",
+      "Replay the completed repair against the original inspection."
+    ],
+    "brandColor": "#185ADB",
+    "screenshots": []
+  }
+}

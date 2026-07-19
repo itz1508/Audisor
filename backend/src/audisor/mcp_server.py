@@ -10,6 +10,7 @@ from .contracts import ContractError, InspectionRequest
 from .inspection import inspect_repository
 from .replay import replay_inspection
 from .scanner import scan_report
+from .trace import trace_inspection
 from .validation import validate_inspection
 
 
@@ -68,6 +69,14 @@ def create_server() -> FastMCP:
             return replay_inspection(inspection, validation)
         except (ArtifactError, ValueError) as exc:
             return _error("replay_blocked", str(exc))
+
+    @server.tool(name="audisor_trace")
+    def audisor_trace(inspection: dict[str, Any]) -> dict[str, Any]:
+        """Trace static parents, entrypoints, and direct tests from immutable inspection evidence."""
+        try:
+            return trace_inspection(inspection)
+        except ArtifactError as exc:
+            return _error("trace_blocked", str(exc))
 
     return server
 

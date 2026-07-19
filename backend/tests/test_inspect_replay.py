@@ -7,6 +7,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+
+from PIL import Image
 
 from audisor.artifacts import ArtifactError, verify_artifact
 from audisor.contracts import InspectionRequest
@@ -19,6 +22,12 @@ def write(root: Path, relative: str, content: str) -> None:
     path = root / relative
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
+
+
+def write_image(root: Path, relative: str, color: tuple[int, int, int]) -> None:
+    path = root / relative
+    path.parent.mkdir(parents=True, exist_ok=True)
+    Image.new("RGB", (16, 12), color).save(path, format="PNG")
 
 
 def request(root: Path, issue: str = "Fix app.py") -> InspectionRequest:
@@ -150,6 +159,61 @@ class InspectValidateReplayTests(unittest.TestCase):
             write(root, "app.py", "value = 1\n")
             result = replay_inspection(inspection, validation)
         self.assertNotIn("original-secret-value", json.dumps(result))
+
+    def test_replay_returns_bounded_visual_diff_for_scoped_image(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write(root, "app.py", "def broken(:\n")
+            write_image(root, "screen.png", (0, 0, 0))
+            inspection = inspect_repository(request(root))
+            evaluation = valid_evaluation(inspection)
+            evaluation["findings"][0]["scope"]["include"].append("screen.png")
+            validation = validate_inspection(inspection, evaluation)
+            write(root, "app.py", "def fixed():\n    return 1\n")
+            write_image(root, "screen.png", (255, 255, 255))
+            result = replay_inspection(inspection, validation)
+        image_diff = next(item["image_diff"] for item in result["diff_view"] if item["path"] == "screen.png")
+        self.assertEqual(image_diff["status"], "valid")
+        self.assertGreater(image_diff["changed_pixel_count"], 0)
+        self.assertEqual(image_diff["panels"], ["before", "after", "difference"])
+        self.assertTrue(image_diff["diff_png_base64"])
+
+    def test_replay_keeps_deleted_scoped_image_uncertain(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write(root, "app.py", "def broken(:\n")
+            write_image(root, "screen.png", (0, 0, 0))
+            inspection = inspect_repository(request(root))
+            evaluation = valid_evaluation(inspection)
+            evaluation["findings"][0]["scope"]["include"].append("screen.png")
+            validation = validate_inspection(inspection, evaluation)
+            write(root, "app.py", "def fixed():\n    return 1\n")
+            (root / "screen.png").unlink()
+            result = replay_inspection(inspection, validation)
+        image_diff = next(item["image_diff"] for item in result["diff_view"] if item["path"] == "screen.png")
+        self.assertEqual(image_diff, {"status": "uncertainty", "reason": "image_added_or_deleted"})
+
+    def test_replay_summarizes_unrelated_image_without_exposing_visual_content(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write(root, "app.py", "def broken(:\n")
+            write_image(root, "unrelated.png", (0, 0, 0))
+            inspection = inspect_repository(request(root))
+            validation = validate_inspection(inspection, valid_evaluation(inspection))
+            write(root, "app.py", "def fixed():\n    return 1\n")
+            write_image(root, "unrelated.png", (255, 255, 255))
+            result = replay_inspection(inspection, validation)
+        self.assertEqual([item for item in result["diff_view"] if item["path"] == "unrelated.png"], [])
+        self.assertIn({"path": "unrelated.png", "status": "modified"}, result["unrelated_change_summary"])
+
+    def test_image_limits_are_explicit_uncertainty(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            write_image(root, "screen.png", (0, 0, 0))
+            with patch("audisor.artifacts._MAX_IMAGE_BYTES", 1):
+                inspection = inspect_repository(request(root))
+        image = next(item["image"] for item in inspection["source_snapshot"] if item["path"] == "screen.png")
+        self.assertEqual(image, {"status": "uncertainty", "reason": "image_byte_limit"})
 
     def test_cli_artifact_smoke(self):
         with tempfile.TemporaryDirectory() as directory:
