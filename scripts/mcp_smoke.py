@@ -27,7 +27,7 @@ def main() -> int:
     if not command:
         raise SystemExit("mcp_command_required")
     result = asyncio.run(_run(command, args.repository.resolve()))
-    expected = {"audisor_scan", "audisor_inspect", "audisor_trace", "audisor_validate", "audisor_replay"}
+    expected = {"audisor_scan", "audisor_inspect", "audisor_normalize", "audisor_trace", "audisor_validate", "audisor_replay"}
     if set(result["tools"]) != expected:
         raise SystemExit("unexpected_tool_surface")
     print(json.dumps({"status": "completed", **result}, ensure_ascii=True, sort_keys=True))

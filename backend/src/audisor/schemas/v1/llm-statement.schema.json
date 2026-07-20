@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "llm-statement.schema.json",
+  "title": "Audisor LLM Statement",
+  "description": "Semantic repair context that references immutable Inspection evidence without embedding a snapshot or creating approval authority.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "statement_id", "producer", "inspection_ref", "finding_ids", "diagnosis", "constraints", "repair_success_criteria", "one_shot"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "statement_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"},
+    "producer": {
+      "type": "object", "additionalProperties": false, "required": ["kind", "label"],
+      "properties": {"kind": {"enum": ["codex", "local_model", "remote_model", "human"]}, "label": {"type": "string", "minLength": 1}}
+    },
+    "inspection_ref": {
+      "type": "object", "additionalProperties": false, "required": ["inspection_id", "manifest_sha256"],
+      "properties": {"inspection_id": {"type": "string", "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$"}, "manifest_sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}}
+    },
+    "finding_ids": {"type": "array", "minItems": 1, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "behavior": {
+      "type": "object", "additionalProperties": false, "required": ["expected", "actual"],
+      "properties": {"expected": {"$ref": "#/$defs/claim"}, "actual": {"$ref": "#/$defs/claim"}}
+    },
+    "reproduction": {
+      "type": "object", "additionalProperties": false, "required": ["steps", "environment_notes", "evidence_refs"],
+      "properties": {"steps": {"type": "array", "items": {"type": "string", "minLength": 1}}, "environment_notes": {"type": "array", "items": {"type": "string", "minLength": 1}}, "evidence_refs": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}}}
+    },
+    "call_path": {
+      "type": "object", "additionalProperties": false, "required": ["status"],
+      "properties": {"status": {"enum": ["valid", "uncertainty"]}, "entrypoint": {"type": "string", "minLength": 1}, "hops": {"type": "array", "minItems": 1, "items": {"type": "string", "minLength": 1}}, "uncertainty_reason": {"type": "string", "minLength": 1}},
+      "allOf": [{"if": {"required": ["status"], "properties": {"status": {"const": "valid"}}}, "then": {"required": ["entrypoint", "hops"]}, "else": {"required": ["uncertainty_reason"]}}]
+    },
+    "constraints": {
+      "type": "object", "additionalProperties": false, "required": ["explicit_constraints", "prohibited_changes"],
+      "properties": {"explicit_constraints": {"type": "array", "items": {"type": "string", "minLength": 1}}, "prohibited_changes": {"type": "array", "items": {"type": "string", "minLength": 1}}}
+    },
+    "diagnosis": {
+      "type": "object", "additionalProperties": false, "required": ["hypotheses", "reasoned_diagnosis", "evidence_refs"],
+      "properties": {
+        "hypotheses": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["rank", "claim", "confidence", "evidence_refs"], "properties": {"rank": {"type": "integer", "minimum": 1}, "claim": {"type": "string", "minLength": 1}, "confidence": {"enum": ["confirmed", "likely", "speculative"]}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence_ref"}}}}},
+        "reasoned_diagnosis": {"type": "string", "minLength": 1},
+        "evidence_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence_ref"}}
+      }
+    },
+    "repair_success_criteria": {"type": "array", "minItems": 1, "items": {"type": "object", "additionalProperties": false, "required": ["check", "expected_result"], "properties": {"check": {"type": "string", "minLength": 1}, "expected_result": {"type": "string", "minLength": 1}}}},
+    "one_shot": {
+      "type": "object", "additionalProperties": false, "required": ["viable", "blocker"],
+      "properties": {"viable": {"type": "boolean"}, "blocker": {"type": ["string", "null"]}},
+      "allOf": [
+        {"if": {"required": ["blocker"], "properties": {"blocker": {"type": "string", "minLength": 1}}}, "then": {"properties": {"viable": {"const": false}}}},
+        {"if": {"required": ["viable"], "properties": {"viable": {"const": false}}}, "then": {"properties": {"blocker": {"type": "string", "minLength": 1}}}}
+      ]
+    }
+  },
+  "$defs": {
+    "claim": {"type": "object", "additionalProperties": false, "required": ["description", "evidence_refs"], "properties": {"description": {"type": "string", "minLength": 1}, "evidence_refs": {"type": "array", "minItems": 1, "items": {"$ref": "#/$defs/evidence_ref"}}}},
+    "evidence_ref": {"type": "object", "additionalProperties": false, "required": ["kind", "reference"], "properties": {"kind": {"enum": ["scan_finding", "source_location", "trace_edge", "test", "command_output", "requirement", "environment"]}, "reference": {"type": "string", "minLength": 1}, "path": {"type": "string", "minLength": 1}, "line": {"type": "integer", "minimum": 1}}}
+  }
+}

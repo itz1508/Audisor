@@ -6,11 +6,20 @@ evaluation, and replays the resolved repository without turning itself into a
 second coding agent.
 
 ```text
-Issue -> Inspect -> optional Trace -> Validate -> Codex repair -> Replay
+Issue -> Inspect -> optional Trace -> optional Normalize -> Validate -> Codex repair -> optional Replay
 ```
 
-The five tools are `audisor_scan`, `audisor_inspect`, `audisor_trace`,
-`audisor_validate`, and `audisor_replay`. Codex remains the only writer.
+The six tools are `audisor_scan`, `audisor_inspect`, `audisor_trace`,
+`audisor_normalize`, `audisor_validate`, and `audisor_replay`. Codex remains
+the only writer.
+
+## Normalize contract
+
+`audisor normalize inspection.json llm-statement.json --json` creates the
+optional semantic Normalize Package from Dossier, Handoff, and an LLM
+Statement. It references an Inspection ID, Inspection hash, and finding IDs
+only. It never embeds snapshot content or Replay output, and it does not create
+an apply/skip approval workflow.
 
 ## Quick start
 

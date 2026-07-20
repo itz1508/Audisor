@@ -10,6 +10,7 @@ import sys
 from .artifacts import ArtifactError, read_json
 from .contracts import ContractError, InspectionRequest
 from .inspection import inspect_repository
+from .normalization import normalize_inspection
 from .replay import replay_inspection
 from .scanner import scan_report
 from .trace import trace_inspection
@@ -52,6 +53,10 @@ def main(argv: list[str] | None = None) -> int:
     inspect_command = commands.add_parser("inspect", help="Capture immutable original issue evidence for later validation and replay.")
     inspect_command.add_argument("request_json", type=Path)
     inspect_command.add_argument("--json", action="store_true")
+    normalize_command = commands.add_parser("normalize", help="Create a semantic Normalize Package from immutable inspection evidence.")
+    normalize_command.add_argument("inspection_json", type=Path)
+    normalize_command.add_argument("llm_statement_json", type=Path)
+    normalize_command.add_argument("--json", action="store_true")
     validate_command = commands.add_parser("validate", help="Verify inspection evidence and a Codex Gap Evaluation.")
     validate_command.add_argument("inspection_json", type=Path)
     validate_command.add_argument("evaluation_json", type=Path)
@@ -81,6 +86,13 @@ def main(argv: list[str] | None = None) -> int:
         except (ArtifactError, ContractError) as exc:
             _print({"status": "failed", "error": {"code": "invalid_inspection_request", "detail": str(exc)}}, as_json=True)
             return 2
+    if args.command == "normalize":
+        try:
+            _print(normalize_inspection(read_json(args.inspection_json), read_json(args.llm_statement_json)), as_json=True)
+            return 0
+        except ArtifactError as exc:
+            _print({"status": "blocked", "error": {"code": "normalization_blocked", "detail": str(exc)}}, as_json=True)
+            return 3
     if args.command == "validate":
         try:
             _print(validate_inspection(read_json(args.inspection_json), read_json(args.evaluation_json)), as_json=True)

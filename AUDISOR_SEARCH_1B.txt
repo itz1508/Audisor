@@ -1,0 +1,1252 @@
+
+
+================ TARGET INVENTORY ================
+
+--- .\.agents\skills\audisor-plan-review ---
+
+Mode  FullName                                                              Length
+----  --------                                                              ------
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md  12064
+
+
+
+--- .\.agents ---
+
+Mode  FullName                                                                    Length
+----  --------                                                                    ------
+d---- D:\Dev\Theoneshot\audisor\.agents\skills                                    
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection             
+da--- D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review                
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation          
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting                 
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation                 
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review                    
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery               
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage               
+d---- D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review              
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md    2594
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md       12064
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md 2431
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md        2111
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md        1892
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md           2296
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md      3732
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md      2150
+-a--- D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md     2252
+
+
+
+--- .\.codex ---
+
+Mode  FullName                                               Length
+----  --------                                               ------
+d---- D:\Dev\Theoneshot\audisor\.codex\agents                
+-a--- D:\Dev\Theoneshot\audisor\.codex\config.toml           174
+-a--- D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml  666
+-a--- D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml  780
+-a--- D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml 749
+
+
+
+--- .\plugins\audisor ---
+
+Mode  FullName                                                                      Length
+----  --------                                                                      ------
+d---- D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin                       
+d---- D:\Dev\Theoneshot\audisor\plugins\audisor\skills                              
+-a--- D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json                           99
+-a--- D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json           1158
+d---- D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace          
+-a--- D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md 2256
+
+
+
+--- .\marketplace.json ---
+
+Mode  FullName                                   Length
+----  --------                                   ------
+-a--- D:\Dev\Theoneshot\audisor\marketplace.json    361
+
+
+
+================ FULL TEXT CONTENT ================
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md ########
+---
+name: active-path-inspection
+description: |
+  Use this read-only skill when the task requires tracing Audisor's active implementation through definitions, imports, callers, canonical entrypoints,packaging, schemas, tests, or deployment boundaries. Do not trigger for a repository orientation scan (use repository-discovery), explanations (use learn), setup/configuration (use init), plan review, requirement scoring, validator sufficiency review, or implementation/debugging by itself.
+---
+
+# Active Path Inspection
+
+## Purpose
+
+Determine which Audisor component actually owns a behavior. A matching filename
+or text search is not activation evidence.
+
+## Scope and exclusions
+
+- Start from the canonical backend package and public launcher defined by the
+  applicable instructions.
+- Trace definitions, imports, callers, entrypoints, package inclusion,
+  schemas/interfaces, tests, and declared deployment boundaries.
+- Classify findings as active, generated, historical, advisory, compatibility,
+  experimental, test-only, or residue when evidence supports the label.
+- Do not edit source, tests, schemas, configuration, or evidence; do not infer
+  runtime behavior from source inspection alone.
+- Do not redesign the backend phase order or create a parallel authority.
+
+## Required inputs and evidence
+
+Require a behavior, symbol, path, or requirement to trace. Use rg, file
+inspection, import/caller searches, package metadata, entrypoint checks, and
+focused tests or commands only when they are safe and approved. Record exact
+paths and the call sequence supporting each ownership claim.
+
+## Output
+
+Return:
+
+- Question and inspected scope;
+- Active path as definition -> import -> caller -> entrypoint -> package/test
+  evidence;
+- Ownership classification for duplicate or dormant candidates;
+- Boundary checks for schemas, writers, mutation authorities, and deployment;
+- Contradictions or unknowns;
+- Next evidence step or decision gate.
+
+Separate observed evidence, interpretation, unresolved questions, and next
+action. State I don't know. when the active owner cannot be established.
+
+## Stop conditions and authority
+
+Stop when the canonical entrypoint, package inclusion, or caller chain cannot
+be established, or when a proposed change would promote a new authority path.
+Mutation authority is none. This skill cannot declare a fix complete.
+
+## Validation expectation
+
+At minimum, reconcile text matches to imports/callers and confirm the claimed
+entrypoint and package surface. Tests are supporting evidence, not proof of
+activation, deployment, or external compatibility.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md ########
+---
+name: audisor-plan-review
+description: Trigger the local Audisor MCP review for a completed implementation plan before coding. Use only when a valid plan document is detected — never for raw tasks, research, questions, or read-only work. Audisor returns additive companion artifacts; it never edits the plan or repository.
+---
+
+# Audisor Plan Review
+
+## How it works
+
+Audisor is a narrow plan qualifier, not a planner or executor. The host detects a **completed valid plan** by validating its structure against the plan-detection schema. When a valid plan is detected, the host calls `aflow_review` **exactly once** with `plan_digest="auto"`. Audisor computes the digest internally, reviews the immutable plan text, and returns a manifest with an outcome.
+
+The host interprets the outcome at a **decision gate**:
+
+| Outcome | Host action |
+|---|---|
+| `decision_required` | Stop before implementation. Request the stated human decision. |
+| `supplement_ready` | Keep the original plan unchanged. Use companion artifacts as added implementation context. Proceed. |
+| `no_material_gap` | Keep the original plan unchanged. No companion artifacts required. Proceed. |
+
+Audisor never rewrites the original plan, never executes code, and never writes files.
+
+## When to use
+
+Use Audisor **only** when all of the following are true:
+
+1. `source_kind` is `"plan"` (not `"task"`)
+2. `expects_mutation` is `true`
+3. `read_only` is `false`
+4. `steps` contains at least one action
+
+**Do not use Audisor for:**
+- Raw user tasks without a drafted plan
+- Research, explanations, or questions
+- Read-only work (analysis, inspection, documentation reading)
+- Work with no expected repository mutation
+
+## Definitions
+
+| Term | Definition |
+|---|---|
+| **plan** | A structured document with `plan_id`, ordered `steps`, and an `original_plan` text field. The source of truth for implementation. |
+| **task** | A raw user request. May or may not include a plan. Audisor never receives raw tasks. |
+| **aflow_review** | The MCP tool that reviews an immutable plan and returns additive companion artifacts. |
+| **manifest** | The review result containing `outcome`, `plan_id`, `artifacts`, and optionally `plan_digest`. |
+| **outcome** | One of `no_material_gap`, `supplement_ready`, `decision_required`. |
+| **plan_digest="auto"** | Instructs Audisor to compute the SHA-256 digest of `original_plan` internally. Collapses "submit plan" and "call aflow_review" into one step. |
+| **decision gate** | The host-side interpretation of the review outcome that determines whether to proceed, block, or request human input. |
+| **companion artifacts** | Additive documents returned by Audisor (gap review, evaluation, validation fixtures, validation tests, plan update). Never modify the original plan. |
+| **source_kind** | `"plan"` for completed plans; `"task"` for raw user requests. Only `"plan"` triggers automatic review. |
+| **expects_mutation** | Boolean. `true` when the plan expects to write files, change configuration, or otherwise mutate the repository. |
+| **read_only** | Boolean. `false` for implementation work; `true` for inspection or research. |
+
+## Plan detection schema
+
+A valid plan document must satisfy this schema. The host validates structure only — no hashing, no task-kind classification.
+
+```json
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://theoneshot.dev/schemas/aflow/v1/plan-detection.schema.json",
+  "title": "Audisor Plan Detection",
+  "description": "Defines a completed valid plan that automatically triggers Audisor review. No hashing or task-kind classification is used for detection. The host validates plan structure only.",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["plan_id", "source_kind", "expects_mutation", "read_only", "steps", "original_plan"],
+  "properties": {
+    "plan_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Stable, non-empty identifier for this plan."
+    },
+    "source_kind": {
+      "enum": ["plan"],
+      "description": "Must be 'plan'. Raw tasks use source_kind='task' and do NOT trigger automatic Audisor review."
+    },
+    "expects_mutation": {
+      "type": "boolean",
+      "description": "Must be true. Indicates the plan expects to mutate the repository."
+    },
+    "read_only": {
+      "type": "boolean",
+      "description": "Must be false. Read-only work never triggers Audisor review."
+    },
+    "steps": {
+      "type": "array",
+      "minItems": 1,
+      "description": "Ordered list of planned actions. Must contain at least one step.",
+      "items": {
+        "type": "object",
+        "required": ["action_id", "objective"],
+        "properties": {
+          "action_id": { "type": "string", "minLength": 1 },
+          "objective": { "type": "string", "minLength": 1 },
+          "target_paths": { "type": "array", "items": { "type": "string" } },
+          "evidence_gates": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "original_plan": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The full immutable plan text passed verbatim to aflow_review."
+    },
+    "evidence_gates": {
+      "type": "array",
+      "description": "Optional validation checkpoints.",
+      "items": {
+        "type": "object",
+        "required": ["gate_id", "criterion"],
+        "properties": {
+          "gate_id": { "type": "string", "minLength": 1 },
+          "criterion": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "source_kind": { "const": "plan" },
+          "expects_mutation": { "const": true },
+          "read_only": { "const": false }
+        }
+      },
+      "then": {
+        "properties": {
+          "trigger_action": { "enum": ["auto_review", "direct_review"] }
+        }
+      }
+    },
+    {
+      "if": {
+        "anyOf": [
+          { "properties": { "source_kind": { "const": "task" } } },
+          { "properties": { "expects_mutation": { "const": false } } },
+          { "properties": { "read_only": { "const": true } } }
+        ]
+      },
+      "then": {
+        "properties": {
+          "trigger_action": { "const": "skip" }
+        }
+      }
+    }
+  ]
+}
+```
+
+## Tool parameters
+
+Call `aflow_review` exactly once per plan.
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `original_plan` | `string` | Yes | The unchanged plan text. Never substitute raw task text. |
+| `plan_id` | `string` | Yes | A stable, non-empty identifier. |
+| `plan_digest` | `string` | No | `"auto"` to compute internally, or a 64-char hex SHA-256. Defaults to `"auto"`. |
+
+## Returns and interpretation
+
+The tool returns:
+
+```json
+{
+  "manifest": {
+    "schema_version": "1.0.0",
+    "plan_id": "<plan_id>",
+    "outcome": "<outcome>",
+    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"],
+    "plan_digest": "<sha256>"
+  },
+  "artifacts": {
+    "manifest.json": "<canonical_json>",
+    "gap-review.json": "<findings_and_decisions>",
+    "gap-fulfillment.md": "<markdown>",
+    "evaluation.json": "<success_criteria>",
+    "validation-fixtures.json": "<fixtures>",
+    "validation-tests.json": "<tests>",
+    "plan-update.md": "<markdown>"
+  }
+}
+```
+
+### Outcome interpretation
+
+- **`no_material_gap`**: The plan is clean. Proceed with implementation using the original plan unchanged. Companion artifacts are optional context.
+- **`supplement_ready`**: The plan is clean but Audisor found missing context (success criteria, validation, fixtures). Proceed with the original plan unchanged. Apply companion artifacts as additive implementation context.
+- **`decision_required`**: The plan contains unresolved design decisions. **Stop.** Request human resolution before implementation. Do not proceed.
+
+## Examples
+
+### Example 1: Valid plan document that triggers review
+
+```json
+{
+  "plan_id": "feature-auth-001",
+  "source_kind": "plan",
+  "expects_mutation": true,
+  "read_only": false,
+  "steps": [
+    {
+      "action_id": "step-1",
+      "objective": "Add JWT middleware to API gateway",
+      "target_paths": ["src/middleware/auth.py"],
+      "evidence_gates": ["test-jwt-validation"]
+    },
+    {
+      "action_id": "step-2",
+      "objective": "Update user model with token fields",
+      "target_paths": ["src/models/user.py"]
+    }
+  ],
+  "original_plan": "## Authentication Feature\n\n1. Add JWT middleware to API gateway (src/middleware/auth.py)\n2. Update user model with token fields (src/models/user.py)\n3. Add tests for token validation\n\nSuccess criteria: All existing tests pass; new auth tests cover login/logout flows.",
+  "evidence_gates": [
+    { "gate_id": "test-jwt-validation", "criterion": "JWT tokens are validated in middleware tests" }
+  ]
+}
+```
+
+### Example 2: aflow_review call
+
+```json
+{
+  "original_plan": "## Authentication Feature\n\n1. Add JWT middleware...\n2. Update user model...\n3. Add tests...",
+  "plan_id": "feature-auth-001",
+  "plan_digest": "auto"
+}
+```
+
+### Example 3: no_material_gap response → proceed
+
+```json
+{
+  "manifest": {
+    "outcome": "no_material_gap",
+    "plan_id": "feature-auth-001",
+    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+  }
+}
+```
+
+**Host action**: Keep original plan unchanged. Proceed with implementation.
+
+### Example 4: supplement_ready response → proceed with context
+
+```json
+{
+  "manifest": {
+    "outcome": "supplement_ready",
+    "plan_id": "feature-auth-001",
+    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+  },
+  "artifacts": {
+    "gap-review.json": "{\"findings\":[{\"id\":\"validation\",\"reason\":\"Add a validation specification as a companion record.\"}]}"
+  }
+}
+```
+
+**Host action**: Keep original plan unchanged. Use the validation specification from companion artifacts as added context. Proceed with implementation.
+
+### Example 5: decision_required response → stop
+
+```json
+{
+  "manifest": {
+    "outcome": "decision_required",
+    "plan_id": "feature-auth-001",
+    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md", "decision-required.json"]
+  },
+  "artifacts": {
+    "decision-required.json": "{\"decisions\":[{\"id\":\"design-decision-required\",\"reason\":\"The plan explicitly requires a design decision. Audisor must not invent that decision.\"}]}"
+  }
+}
+```
+
+**Host action**: Stop before implementation. Present the design decision to the human and request resolution.
+
+## Automatic trigger
+
+For any agent (not only Codex), when a completed valid plan is detected, the Audisor review triggers **automatically**. The host:
+
+1. Validates the plan document against the plan-detection schema
+2. Calls `aflow_review` with `plan_digest="auto"`
+3. Interprets the outcome at the decision gate
+4. Returns the decision to the agent workflow
+
+The automatic trigger works for **any agent**. The bridge accepts an `agent_identity` parameter that records which agent owns the resulting lock. When omitted, it defaults to `"primary_codex"` for backward compatibility.
+
+## Error handling
+
+If the MCP tool is unavailable, report the missing local Audisor configuration. Do not replace Audisor with another agent or cloud model.
+
+If `aflow_review` returns an error, the bridge returns `decision: "blocked"` with the error reason.
+
+If the review outcome is unexpected (not `no_material_gap`, `supplement_ready`, or `decision_required`), the bridge returns `decision: "blocked"`.
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md ########
+---
+name: controlled-implementation
+description: |
+  Use this skill only when the primary orchestrator has an explicit approved decision gate, exact writable target paths, rollback evidence, and focused validators for an Audisor change. Do not trigger for diagnosis, planning, plan review, setup/configuration, explanations, or implementation when scope, authority, rollback, or validation is unresolved. Do not use it to stage, commit, publish, deploy, or modify production authority outside the approved paths.
+---
+
+# Controlled Implementation
+
+## Purpose
+
+Apply an approved Audisor change inside an explicit path boundary while
+preserving unrelated work and existing runtime authority.
+
+## Preconditions and scope
+
+Before editing, require:
+
+- the user objective and accepted plan;
+- independent gap review with no material blocker;
+- exact writable paths and excluded paths;
+- current branch, HEAD/no-HEAD, dirty state, and rollback path;
+- active implementation and authority checks;
+- focused validation commands and measurable success criteria.
+
+Recheck state immediately before writing. Use apply_patch for local edits. Keep
+the change narrow, do not create duplicate entrypoints, state roots, writers,
+registries, runners, or deployment authorities, and do not edit outside the
+approved paths.
+
+## Exclusions and mutation authority
+
+Preserve unrelated dirty and untracked work. Do not reset, clean, stash,
+overwrite, stage, commit, push, publish, deploy, or perform destructive cleanup
+unless separately authorized. Stop immediately if an unexpected path changes or
+the diff exceeds scope. This skill is not permission to alter runtime behavior
+without an approved target path.
+
+## Required evidence and output
+
+Record:
+
+1. pre-change state and rollback location;
+2. approved paths and intended ownership;
+3. exact changed paths and diff;
+4. focused commands, working directories, output excerpts, and exit codes;
+5. preserved unrelated paths;
+6. remaining gaps and stop condition.
+
+Use Unverified_Execution_Claim when a required validator did not run.
+
+## Post-change validation
+
+Inspect the exact diff, compare target file lists/hashes when the repository has
+no usable HEAD, run focused validation, and run broader regression checks only
+when required by the accepted plan. A clean diff or passing unit test does not
+independently prove entrypoint reachability, package inclusion, deployment, or
+external compatibility.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md ########
+---
+name: evidence-reporting
+description: |
+  Use this read-only skill after approved inspection or validation when the
+  user needs a final Audisor evidence report with exact paths, commands,
+  outputs, exit codes, interpretations, gaps, and stop condition. Do not
+  trigger for initial discovery, implementation, ordinary testing, plan
+  creation/review, or conceptual explanations.
+---
+
+# Evidence Reporting
+
+## Purpose
+
+Assemble a bounded report from evidence inspected during the current task. It
+does not create proof that was not executed or inspected.
+
+## Scope and exclusions
+
+- Report only current files, diffs, artifacts, transcripts, and command output.
+- Include repository path, branch, HEAD or no-HEAD, dirty state, touched paths,
+  excluded paths, rollback boundary, and authority risks when relevant.
+- Preserve the distinction between passed, failed, blocked, and
+  Unverified_Execution_Claim.
+- Do not edit source or reports unless a separately authorized output path is
+  explicitly in scope; do not stage, commit, publish, deploy, or release.
+- Do not repeat stale reports as current evidence.
+
+## Required inputs and evidence
+
+Require the user objective, scope, inspected paths, exact commands, relevant
+output excerpts, exit codes, validation results, and unresolved findings.
+
+## Output
+
+Use:
+
+Changed:
+Commands_Run:
+Result:
+Evidence:
+Remaining_Gaps:
+Rollback:
+Stop_Condition:
+
+Connect every material claim to a path or command. State what was required,
+what was checked, what supports the verdict, and what was missing or
+contradicted.
+
+## Stop conditions and authority
+
+Stop with Blocked or Unverified_Execution_Claim when current proof is missing,
+conflicting, or outside scope. Mutation authority is none unless a separate
+approved report path is provided; reporting never promotes an artifact, writer,
+runner, or deployment path to authority.
+
+## Validation expectation
+
+Check that the report is complete, current, reproducible from its commands,
+scope-bounded, and honest about failures and unverified areas. A polished
+summary without supporting evidence is not a passing report.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md ########
+---
+name: focused-validation
+description: |
+  Use this skill after an approved Audisor change when the task is to execute
+  the smallest safe validators for the changed path and report their evidence.
+  Do not trigger for designing a validator (use validation-gap-review), initial
+  discovery, plan review, explanations, setup/configuration, or implementation.
+---
+
+# Focused Validation
+
+## Purpose
+
+Prove the changed Audisor behavior through the active production path and
+nearby contracts before expanding to broader regression checks.
+
+## Scope and exclusions
+
+- Read applicable AGENTS.md files and the accepted success definition.
+- Inspect the exact diff and identify the canonical entrypoint, package surface,
+  schemas, tests, and focused validators affected by the change.
+- Run only approved, bounded commands with controlled output roots.
+- Do not edit source, tests, schemas, configuration, or evidence; do not repair
+  failures silently; do not stage, commit, publish, deploy, or release.
+
+## Required evidence
+
+For every command record the exact command, working directory, relevant output,
+exit code, touched paths, and interpretation. Include positive and negative
+cases and distinguish compile/source, unit, entrypoint, package, runtime, and
+external-service proof. Missing execution proof is
+Unverified_Execution_Claim.
+
+## Output and stop conditions
+
+Return:
+
+- changed-path and active-entrypoint check;
+- focused validator results;
+- failure or negative-case results;
+- requirement coverage status;
+- unverified or blocked claims;
+- next broader validator, if required;
+- final stop condition.
+
+Stop when a command mutates an unapproved path, the active path cannot be
+reached, a required dependency or environment gate is missing, or validation
+cannot distinguish requested-but-not-implemented from passing. A passing test
+does not authorize a completion claim by itself.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md ########
+---
+name: plan-gap-review
+description: |
+  Use this read-only skill when an existing Audisor draft plan or design needs
+  an independent gap review before execution. Trigger only when a plan is
+  already present. Do not trigger to create a plan, perform setup/configuration
+  (use init), explain the workflow (use learn), implement changes, or validate
+  runtime behavior.
+---
+
+# Plan Gap Review
+
+## Purpose
+
+Challenge a draft plan independently without silently redesigning the requested
+solution. The primary orchestrator retains interpretation, authority
+resolution, decision-gate, and completion authority.
+
+## Scope and exclusions
+
+Review the plan against the user objective, applicable Audisor instructions,
+live repository state, active implementation, target/excluded paths,
+dependencies, authority boundaries, rollback, and proposed validators.
+
+Do not edit the plan or repository, run implementation commands, approve the
+plan, expand scope, or invent missing evidence. Setup/configuration requests
+remain with init; conceptual questions remain with learn.
+
+## Required inputs and evidence
+
+Require the draft plan, approved scope, repository-state evidence, source and
+target paths, authority chain, dependencies, rollback approach, and validation
+commands. Recheck only the read-only evidence needed to test plan assumptions.
+
+## Output
+
+For every gap return:
+
+- affected plan step;
+- missing, contradictory, vague, or unsupported detail;
+- why it matters;
+- concrete correction that preserves user intent;
+- blocks_execution: yes|no.
+
+Also return requirement coverage, ownership checks, authority/scope risks,
+positive and negative validation cases, measurable success criteria, stop
+conditions, and any user decision required.
+
+## Stop conditions and authority
+
+Stop with Blocked when a material authority conflict, destructive action,
+missing prerequisite, unavailable rollback, or unprovable validator remains.
+Mutation authority is none; the reviewer cannot approve its own recommendation.
+
+## Validation expectation
+
+The reviewed plan is executable only when all requirements are represented,
+steps are specific and ordered, ownership and authority are known or explicitly
+blocked, rollback is possible, and validation can distinguish completion from
+partial or unverified work.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md ########
+---
+name: repository-discovery
+description: |
+  Use this read-only skill when a substantive Audisor task needs the current
+  repository root, branch, HEAD, dirty state, applicable AGENTS.md files,
+  relevant directory structure, or initial scope established before diagnosis
+  or implementation. Do not trigger for setup/configuration requests (use
+  init), explanations (use learn), active call-path tracing (use
+  active-path-inspection), plan review, validation sufficiency review, or
+  ordinary implementation/debugging/testing.
+---
+
+# Repository Discovery
+
+## Purpose
+
+Establish current Audisor repository context before making claims or proposing
+changes. This skill discovers facts; it does not diagnose or implement.
+
+## Scope and exclusions
+
+- Resolve the repository root from an explicit user path when provided;
+  otherwise use the enclosing Git root. If those roots disagree materially or
+  either is ambiguous, stop before making repository-state claims.
+- Read only the resolved root and nested paths needed to establish scope.
+- Load the root AGENTS.md and every applicable nested AGENTS.md for the
+  resolved target path.
+- Inspect branch, HEAD, dirty/untracked state, worktrees when relevant,
+  relevant files, package roots, tests, and declared validation commands.
+- Locate declared entrypoint and configuration surfaces only. Do not infer
+  imports, callers, runtime reachability, ownership, packaging, or deployment
+  activation; use active-path-inspection for those claims.
+- Do not edit, stage, commit, reset, clean, stash, delete, publish, deploy, or
+  change production code.
+- Do not copy external instructions or promote migration/reference material to
+  Audisor authority.
+
+## Required inputs and evidence
+
+Require the user objective and expected target. Treat omitted mutation intent
+as read-only. If excluded paths are omitted, state that no user-supplied
+exclusions were provided and apply the repository's protected/default
+exclusions. Do not infer a target when doing so would leave the repository root
+ambiguous.
+
+Use live command output and exact file paths; treat old reports, filenames,
+counts, and prior summaries as leads only. Locate and report declared validation
+commands, but do not run them during discovery.
+
+## Output
+
+Return:
+
+1. Authority: repository root, applicable instructions, and conflicts.
+2. State: branch, HEAD or explicit no-HEAD, dirty/untracked summary, baseline
+   and prospective rollback boundary; include worktree state when relevant, or
+   state why it was skipped.
+3. Scope: included and excluded paths, expected touched paths, and risks.
+4. Structure: relevant package roots, declared entrypoint/configuration files,
+   tests, and declared validation surfaces. Mark runtime reachability and
+   ownership as unknown unless active-path-inspection establishes them.
+5. Unknowns: evidence still missing or contradictory.
+6. Next: the permitted inspection or decision-gate action.
+
+For each material claim include command, relevant output, exit code, and
+interpretation.
+
+## Stop conditions and authority
+
+Stop on a missing or ambiguous target root, conflicting instructions, or
+missing evidence needed for the next decision. Dirty state alone does not stop
+read-only discovery: report it, separate known unrelated paths, and state that
+any later mutation is blocked until the boundary is resolved or the user
+approves proceeding. Mutation authority is none. A discovery result never
+declares implementation or completion.
+
+## Validation expectation
+
+Validate that the reported root exists, instruction coverage is complete, live
+repository state was checked, and included/excluded paths are explicit. A
+valid discovery result proves context only, not runtime behavior.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md ########
+---
+name: requirement-coverage
+description: |
+  Use this read-only skill when explicit user requirements, a specification,
+  an acceptance list, or an evidence packet must be reconciled against current
+  Audisor implementation and artifacts. Do not trigger for creating a plan,
+  reviewing a draft plan (use plan-gap-review), testing alone, validator design
+  alone (use validation-gap-review), explanations, or implementation work.
+---
+
+# Requirement Coverage
+
+## Purpose
+
+Judge whether each requested requirement is represented by current inspected
+implementation and evidence. Coverage is separate from test success.
+
+## Scope and exclusions
+
+- Normalize the user requirements into individually testable statements.
+- Map every statement to exact target paths, active call paths, schemas,
+  commands, tests, or artifacts.
+- Classify each item as pass, fail, partial, unverified, or not_applicable only
+  with supporting evidence.
+- Do not modify implementation, tests, schemas, reports, or runtime state.
+- Do not infer hidden work, hidden runs, or completion from aggregate counts.
+
+## Required inputs and evidence
+
+Require the authoritative requirement text and the current target scope. Read
+applicable instructions first. Use current files and executed artifacts; when
+execution proof is absent, use Unverified_Execution_Claim.
+
+## Output
+
+Return a requirement matrix with:
+
+| Requirement | Target surface | Evidence checked | Verdict | Gap/next action |
+|---|---|---|---|---|
+
+Then report duplicate authority risks, exclusions, unsupported assumptions,
+missing evidence, and whether any completion claim is blocked.
+
+## Stop conditions and authority
+
+Stop when the requirement source is ambiguous, a mapping would require
+redesign outside scope, or an evidence claim cannot be reconciled to a current
+artifact. Mutation authority is none. This skill reports coverage; it does not
+authorize changes or declare production readiness.
+
+## Validation expectation
+
+Check both positive and negative cases, including requested-but-not-implemented
+and implemented-but-unverified states. A passing test without requirement
+coverage remains incomplete.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md ########
+---
+name: validation-gap-review
+description: |
+  Use this read-only skill when the task is to assess whether proposed or
+  executed Audisor validators prove requirement coverage, active-path behavior,
+  packaging, runtime behavior, or evidence integrity. Do not trigger for a
+  draft-plan review (use plan-gap-review), ordinary test execution, explanations,
+  setup/configuration, or implementation.
+---
+
+# Validation Gap Review
+
+## Purpose
+
+Determine whether the available validators can prove the requested outcome,
+including completeness, negative cases, and authority preservation. Test
+success is only one input.
+
+## Scope and exclusions
+
+- Inspect the requested requirements, active production path, validators, test
+  layout, packaging, entrypoints, artifacts, and current run evidence.
+- Check positive, negative, missing-implementation, failure, and
+  unverified-execution cases.
+- Distinguish source/compile proof, unit proof, entrypoint proof, package proof,
+  runtime proof, external-service proof, and release/deployment proof.
+- Run only approved read-only or bounded validation commands; do not edit,
+  delete, publish, deploy, or silently repair outputs.
+
+## Required inputs and evidence
+
+Require the success definition, validator list or commands, target scope, and
+current evidence. Record exact command, working directory, output excerpt,
+exit code, touched paths, and interpretation. Missing execution proof is
+Unverified_Execution_Claim.
+
+## Output
+
+Return a validator sufficiency matrix:
+
+| Requirement | Validator/evidence | What it proves | What it cannot prove | Verdict |
+|---|---|---|---|---|
+
+Then list missing positive/negative cases, authority or scope risks, blocked
+claims, and the smallest permitted next validation.
+
+## Stop conditions and authority
+
+Stop when a required validator is unavailable, would mutate an unapproved
+surface, or cannot distinguish requested-but-not-implemented from passing.
+Mutation authority is none. Never declare completion from a green test alone.
+
+## Validation expectation
+
+The review passes only when requirement completeness, active-path reachability,
+applicable package/runtime boundaries, failure behavior, and evidence identity
+are covered or explicitly marked unverified/blocked.
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml ########
+description = "Read-only repository discovery and active implementation tracing for Audisor."
+developer_instructions = """
+You are the Audisor Explorer. Work read-only. Discover repository structure,
+applicable AGENTS.md instructions, branch/HEAD/dirty state, active definitions,
+imports, callers, canonical entrypoints, package inclusion, schemas, and
+deployment boundaries. Reconcile text matches to an active call path. Do not
+edit, plan implementation, run mutation, declare completion, stage, commit,
+publish, or deploy. Report exact paths, commands, exit codes, observed evidence,
+interpretation, unresolved questions, and the next permitted evidence step.
+"""
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml ########
+description = "Read-only independent plan and gap reviewer for Audisor work."
+developer_instructions = """
+You are the Audisor Reviewer. Work read-only and independently. Review the
+provided draft plan against the user objective, applicable AGENTS.md files,
+live repository evidence, active ownership, target and excluded paths,
+dependencies, authority boundaries, rollback, and validation sufficiency.
+Identify unsupported assumptions, missing requirements, scope expansion,
+duplicate authority, and positive or negative validation gaps. Do not edit,
+execute implementation, approve your own recommendations, silently redesign the
+request, stage, commit, publish, or deploy. Return each gap with its affected
+step, why it matters, correction, and whether it blocks execution.
+"""
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml ########
+description = "Read-only validation and evidence sufficiency reviewer for Audisor."
+developer_instructions = """
+You are the Audisor Validator. Work read-only. Check requirement coverage
+separately from test success and run only approved bounded validation commands.
+Distinguish implemented and passing, implemented and failing, requested but not
+implemented, and unverified execution. Check active entrypoint reachability,
+package inclusion, runtime boundaries, failure cases, evidence identity, and
+authority preservation. Report exact commands, working directories, output
+excerpts, exit codes, touched paths, and interpretations. Do not edit, repair,
+stage, commit, publish, deploy, or declare completion when a required claim is
+unverified.
+"""
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\.codex\config.toml ########
+[agents.explorer]
+config_file = "./agents/explorer.toml"
+
+[agents.reviewer]
+config_file = "./agents/reviewer.toml"
+
+[agents.validator]
+config_file = "./agents/validator.toml"
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\marketplace.json ########
+{
+  "name": "audisor",
+  "interface": {
+    "displayName": "Audisor"
+  },
+  "plugins": [
+    {
+      "name": "audisor",
+      "source": {
+        "source": "local",
+        "path": "./plugins/audisor"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Developer Tools"
+    }
+  ]
+}
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json ########
+{
+  "name": "audisor",
+  "version": "0.2.0",
+  "description": "Evidence-first local inspection and replay tools for Codex.",
+  "author": {
+    "name": "The One Shot",
+    "url": "https://github.com/itz1508"
+  },
+  "homepage": "https://github.com/itz1508/audisor",
+  "repository": "https://github.com/itz1508/audisor",
+  "license": "Apache-2.0",
+  "keywords": ["audisor", "mcp", "debugging", "validation", "codex"],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Audisor",
+    "shortDescription": "Evidence-first local inspection for Codex",
+    "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+    "developerName": "The One Shot",
+    "category": "Developer Tools",
+    "capabilities": ["Read"],
+    "websiteURL": "https://github.com/itz1508/audisor",
+    "defaultPrompt": [
+      "Inspect this issue and give me evidence before I repair it.",
+      "Trace this ambiguous repair before I change code.",
+      "Replay the completed repair against the original inspection."
+    ],
+    "brandColor": "#185ADB",
+    "screenshots": []
+  }
+}
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json ########
+{
+  "mcpServers": {
+    "audisor": {
+      "command": "audisor",
+      "args": ["mcp"]
+    }
+  }
+}
+
+
+
+######## FILE: D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md ########
+---
+name: audisor-smart-trace
+description: Use Audisor's local read-only tools for a bounded coding or debugging request only after the original issue can be inspected. Run Trace when repair safety depends on callers, an entrypoint, overlapping ownership, or an uncertain affected scope. Do not use for read-only explanations, ordinary one-file edits with known callers, planning, or as a default hook.
+---
+
+# Audisor Smart Trace
+
+## Purpose
+
+Audisor supplies bounded evidence to Codex. It is not a planner, execution
+agent, writer, hook, or substitute for Codex's repair judgment.
+
+## Workflow
+
+1. For an eligible repair, call `audisor_inspect` once with the original issue
+   and repository root. Preserve the returned inspection artifact unchanged.
+2. Call `audisor_trace` only when at least one is true: affected callers are
+   unknown; an entrypoint may reach the code; the issue spans multiple files;
+   a duplicate or overlap needs ownership evidence; or the scan has a relevant
+   uncertainty. Do not trace a simple scoped edit with a known call path.
+3. When the repair depends on semantic diagnosis, create an LLM Statement and
+   call `audisor_normalize`. The Normalize Package contains Dossier, Handoff,
+   and statement references only; it never contains snapshot content. Skip this
+   step for a purely deterministic finding that already has sufficient evidence.
+4. Classify every inspection finding as `valid`, `not_valid`, or `uncertainty`.
+   Only a `valid` finding has a closure, included/excluded paths, measurable
+   success criteria, and a focused validator.
+5. Call `audisor_validate` before modifying source. If it blocks, do not repair.
+6. Codex performs only the validated repair. Call `audisor_replay` only when a
+   final review summary is useful; Replay is not an approval gate.
+
+## Boundaries
+
+- Do not send raw tasks to Trace.
+- Do not call Trace after source changed from its inspection snapshot.
+- Do not auto-fix secret signals, duplicates, overlaps, or Git drift from a
+  scanner match alone.
+- Do not claim runtime behavior from Replay unless the specified runtime
+  validator was separately executed.
+- If the Audisor MCP server is unavailable, say so; do not claim this review
+  happened through another model or tool.
+
+
+================ EXACT CAPABILITY SEARCH ================
+
+--- PATTERN: prepare_fix ---
+
+
+--- PATTERN: verify_fix ---
+
+
+--- PATTERN: ready_for_execution ---
+
+
+--- PATTERN: decision_required ---
+
+Path                                                                  LineNumber Line
+----                                                                  ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md         16 | `decision_required` | Stop before implementation. Request the stated human decision. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md         45 | **outcome** | One of `no_material_gap`, `supplement_ready`, `decision_required`. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md        189 - **`decision_required`**: The plan contains unresolved design decisions. **Stop.** Request human resolution before implementation. Do not proceed.
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md        262 ### Example 5: decision_required response → stop
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md        267     "outcome": "decision_required",
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md        296 If the review outcome is unexpected (not `no_material_gap`, `supplement_ready`, or `decision_required`), the bridge returns `decision: "blocked"`.
+
+
+
+--- PATTERN: repair_required ---
+
+
+--- PATTERN: delivery_verified ---
+
+
+--- PATTERN: gap ---
+
+Path                                                                        LineNumber Line
+----                                                                        ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md               18 | `no_material_gap` | Keep the original plan unchanged. No companion artifacts required. Proceed. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md               45 | **outcome** | One of `no_material_gap`, `supplement_ready`, `decision_required`. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md               48 | **companion artifacts** | Additive documents returned by Audisor (gap review, evaluation, validation fixtures, validation tests, plan update). Never modify the original plan. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              170     "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"],
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              175     "gap-review.json": "<findings_and_decisions>",
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              176     "gap-fulfillment.md": "<markdown>",
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              187 - **`no_material_gap`**: The plan is clean. Proceed with implementation using the original plan unchanged. Companion artifacts are optional context.
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              231 ### Example 3: no_material_gap response → proceed
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              236     "outcome": "no_material_gap",
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              238     "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              252     "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              255     "gap-review.json": "{\"findings\":[{\"id\":\"validation\",\"reason\":\"Add a validation specification as a companion record.\"}]}"
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              269     "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md", "decision-required.json"]
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md              296 If the review outcome is unexpected (not `no_material_gap`, `supplement_ready`, or `decision_required`), the bridge returns `decision: "blocked"`.
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md         19 - independent gap review with no material blocker;
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md         47 6. remaining gaps and stop condition.
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md                 6   outputs, exit codes, interpretations, gaps, and stop condition. Do not
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md                42 Remaining_Gaps:
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md                 6   Do not trigger for designing a validator (use validation-gap-review), initial
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                    2 name: plan-gap-review
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                    5   an independent gap review before execution. Trigger only when a plan is
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                   11 # Plan Gap Review
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                   37 For every gap return:
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md               7   reviewing a draft plan (use plan-gap-review), testing alone, validator design
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md               8   alone (use validation-gap-review), explanations, or implementation work.
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md              38 | Requirement | Target surface | Evidence checked | Verdict | Gap/next action |
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md              2 name: validation-gap-review
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md              7   draft-plan review (use plan-gap-review), ordinary test execution, explanations,
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md             11 # Validation Gap Review
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                                1 description = "Read-only independent plan and gap reviewer for Audisor work."
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                                8 duplicate authority, and positive or negative validation gaps. Do not edit,
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                               10 request, stage, commit, publish, or deploy. Return each gap with its affected
+
+
+
+--- PATTERN: isolation ---
+
+
+--- PATTERN: missing information ---
+
+
+--- PATTERN: normalize ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md                20 - Normalize the user requirements into individually testable statements.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         22    call `audisor_normalize`. The Normalize Package contains Dossier, Handoff,
+
+
+
+--- PATTERN: validate ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                 55 A valid plan document must satisfy this schema. The host validates structure only — no hashing, no task-kind classification.
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                 62   "description": "Defines a completed valid plan that automatically triggers Audisor review. No hashing or task-kind classification is used for detection. The host validates plan structure only.",
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                216     { "gate_id": "test-jwt-validation", "criterion": "JWT tokens are validated in middleware tests" }
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                283 1. Validates the plan document against the plan-detection schema
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                      7   (use init), explain the workflow (use learn), implement changes, or validate
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md                79 Validate that the reported root exists, instruction coverage is complete, live
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         28 5. Call `audisor_validate` before modifying source. If it blocks, do not repair.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         29 6. Codex performs only the validated repair. Call `audisor_replay` only when a
+
+
+
+--- PATTERN: trace ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md              18 - Trace definitions, imports, callers, entrypoints, package inclusion,
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md              28 Require a behavior, symbol, path, or requirement to trace. Use rg, file
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   18     "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   25       "Trace this ambiguous repair before I change code.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md          2 name: audisor-smart-trace
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md          3 description: Use Audisor's local read-only tools for a bounded coding or debugging request only after the original issue can be inspected. Run Trace when repair safety depends on callers, an entrypoint,
+                                                                                         overlapping ownership, or an uncertain affected scope. Do not use for read-only explanations, ordinary one-file edits with known callers, planning, or as a default hook.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md          6 # Audisor Smart Trace
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         17 2. Call `audisor_trace` only when at least one is true: affected callers are
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         20    uncertainty. Do not trace a simple scoped edit with a known call path.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         34 - Do not send raw tasks to Trace.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         35 - Do not call Trace after source changed from its inspection snapshot.
+
+
+
+--- PATTERN: replay ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                    4   "description": "Evidence-first local inspection and replay tools for Codex.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   18     "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   26       "Replay the completed repair against the original inspection."
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         29 6. Codex performs only the validated repair. Call `audisor_replay` only when a
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         30    final review summary is useful; Replay is not an approval gate.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         38 - Do not claim runtime behavior from Replay unless the specified runtime
+
+
+
+--- PATTERN: LLM Statement ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         21 3. When the repair depends on semantic diagnosis, create an LLM Statement and
+
+
+
+--- PATTERN: Gap Evaluation ---
+
+
+--- PATTERN: Codex ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                281 For any agent (not only Codex), when a completed valid plan is detected, the Audisor review triggers **automatically**. The host:
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                288 The automatic trigger works for **any agent**. The bridge accepts an `agent_identity` parameter that records which agent owns the resulting lock. When omitted, it defaults to `"primary_codex"` for backward
+                                                                                         compatibility.
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                    4   "description": "Evidence-first local inspection and replay tools for Codex.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   12   "keywords": ["audisor", "mcp", "debugging", "validation", "codex"],
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   17     "shortDescription": "Evidence-first local inspection for Codex",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   18     "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         10 Audisor supplies bounded evidence to Codex. It is not a planner, execution
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         11 agent, writer, hook, or substitute for Codex's repair judgment.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         29 6. Codex performs only the validated repair. Call `audisor_replay` only when a
+
+
+
+--- PATTERN: tool ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                 43 | **aflow_review** | The MCP tool that reviews an immutable plan and returns additive companion artifacts. |
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                150 ## Tool parameters
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                162 The tool returns:
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                292 If the MCP tool is unavailable, report the missing local Audisor configuration. Do not replace Audisor with another agent or cloud model.
+D:\Dev\Theoneshot\audisor\marketplace.json                                            17       "category": "Developer Tools"
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                    4   "description": "Evidence-first local inspection and replay tools for Codex.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   18     "longDescription": "Uses local, read-only scan, inspection, trace, validation, and replay tools before Codex repairs code.",
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                   20     "category": "Developer Tools",
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md          3 description: Use Audisor's local read-only tools for a bounded coding or debugging request only after the original issue can be inspected. Run Trace when repair safety depends on callers, an entrypoint,
+                                                                                         overlapping ownership, or an uncertain affected scope. Do not use for read-only explanations, ordinary one-file edits with known callers, planning, or as a default hook.
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         41   happened through another model or tool.
+
+
+
+--- PATTERN: agent ---
+
+Path                                                                          LineNumber Line
+----                                                                          ---------- ----
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                281 For any agent (not only Codex), when a completed valid plan is detected, the Audisor review triggers **automatically**. The host:
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                286 4. Returns the decision to the agent workflow
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                288 The automatic trigger works for **any agent**. The bridge accepts an `agent_identity` parameter that records which agent owns the resulting lock. When omitted, it defaults to `"primary_codex"` for backward
+                                                                                         compatibility.
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md                292 If the MCP tool is unavailable, report the missing local Audisor configuration. Do not replace Audisor with another agent or cloud model.
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md                  19 - Read applicable AGENTS.md files and the accepted success definition.
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md                 5   repository root, branch, HEAD, dirty state, applicable AGENTS.md files,
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md                26 - Load the root AGENTS.md and every applicable nested AGENTS.md for the
+D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml                                  4 applicable AGENTS.md instructions, branch/HEAD/dirty state, active definitions,
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                                  4 provided draft plan against the user objective, applicable AGENTS.md files,
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           1 [agents.explorer]
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           2 config_file = "./agents/explorer.toml"
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           4 [agents.reviewer]
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           5 config_file = "./agents/reviewer.toml"
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           7 [agents.validator]
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                           8 config_file = "./agents/validator.toml"
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md         11 agent, writer, hook, or substitute for Codex's repair judgment.
+
+

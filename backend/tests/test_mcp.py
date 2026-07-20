@@ -36,7 +36,7 @@ class McpServerTests(unittest.TestCase):
                 async with ClientSession(read, write) as session:
                     await session.initialize()
                     tool_names = {tool.name for tool in (await session.list_tools()).tools}
-                    self.assertEqual(tool_names, {"audisor_scan", "audisor_inspect", "audisor_validate", "audisor_replay", "audisor_trace"})
+                    self.assertEqual(tool_names, {"audisor_scan", "audisor_inspect", "audisor_normalize", "audisor_validate", "audisor_replay", "audisor_trace"})
                     scan = _result_json(await session.call_tool("audisor_scan", {"repository_root": str(root)}))
                     self.assertIn("findings", scan)
                     inspection = _result_json(
@@ -46,6 +46,21 @@ class McpServerTests(unittest.TestCase):
                         )
                     )
                     self.assertEqual(inspection["artifact_type"], "audisor.inspection")
+                    secret = next(item for item in inspection["scan_report"]["findings"] if item["type"] == "hardcoded_secret")
+                    statement = {
+                        "schema_version": "1.0.0",
+                        "statement_id": "mcp-normalize-001",
+                        "producer": {"kind": "codex", "label": "Codex"},
+                        "inspection_ref": {"inspection_id": inspection["inspection_id"], "manifest_sha256": inspection["manifest_sha256"]},
+                        "finding_ids": [secret["id"]],
+                        "diagnosis": {"hypotheses": [{"rank": 1, "claim": "Key-shaped assignment requires review.", "confidence": "likely", "evidence_refs": [{"kind": "scan_finding", "reference": secret["id"]}]}], "reasoned_diagnosis": "The scanner found a key-shaped assignment.", "evidence_refs": [{"kind": "scan_finding", "reference": secret["id"]}]},
+                        "constraints": {"explicit_constraints": ["Do not expose the value."], "prohibited_changes": ["Do not auto-rotate credentials."]},
+                        "repair_success_criteria": [{"check": "audisor scan <repo> --json", "expected_result": "No hardcoded_secret signal remains."}],
+                        "one_shot": {"viable": True, "blocker": None},
+                    }
+                    normalization = _result_json(await session.call_tool("audisor_normalize", {"inspection": inspection, "llm_statement": statement}))
+                    self.assertEqual(normalization["artifact_type"], "audisor.normalization_package")
+                    self.assertNotIn("source_snapshot", normalization)
                     trace = _result_json(await session.call_tool("audisor_trace", {"inspection": inspection}))
                     self.assertEqual(trace["artifact_type"], "audisor.trace")
                     evaluation = {"findings": []}

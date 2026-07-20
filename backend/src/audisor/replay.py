@@ -8,7 +8,7 @@ from typing import Any, Mapping
 
 from PIL import Image, ImageChops
 
-from .artifacts import ArtifactError, canonical_hash, safe_snapshot, snapshot_index, verify_artifact
+from .artifacts import ArtifactError, safe_snapshot, snapshot_index, verify_artifact
 from .scanner import scan_report
 from .validation import verify_validation
 
@@ -197,5 +197,4 @@ def replay_inspection(inspection: Mapping[str, Any], validation: Mapping[str, An
         "diff_view": diff_view,
         "unrelated_change_summary": unrelated_changes,
     }
-    artifact["result_sha256"] = canonical_hash(artifact, "result_sha256")
     return artifact

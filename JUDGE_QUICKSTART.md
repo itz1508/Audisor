@@ -1,7 +1,8 @@
 # Audisor judge quickstart
 
-Audisor is a local, read-only MCP tool. It gives Codex immutable issue evidence
-and replay proof; it never writes the repository being inspected.
+Audisor is a local, read-only MCP tool. It gives Codex immutable issue evidence,
+optional semantic Normalize context, and replay proof; it never writes the
+repository being inspected.
 
 ## Native path
 

@@ -87,6 +87,7 @@ class InspectValidateReplayTests(unittest.TestCase):
         self.assertEqual(result["overall_replay_status"], "resolved")
         self.assertEqual(result["findings"][0]["replay_status"], "resolved")
         self.assertEqual(result["findings"][0]["validator_state"], "not_run")
+        self.assertNotIn("result_sha256", result)
         self.assertIn("-def broken(:", result["diff_view"][0]["diff"])
         self.assertIn("+def fixed():", result["diff_view"][0]["diff"])
 

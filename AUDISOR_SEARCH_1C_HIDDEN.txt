@@ -1,0 +1,220 @@
+
+
+================ IGNORED AND HIDDEN FILES ================
+ D .agents/skills/init/SKILL.md
+ D .agents/skills/learn/SKILL.md
+ M JUDGE_QUICKSTART.md
+ M README.md
+ M backend/README.md
+ M backend/pyproject.toml
+ M backend/src/audisor/cli.py
+ M backend/src/audisor/mcp_server.py
+ M backend/src/audisor/replay.py
+ M backend/tests/test_inspect_replay.py
+ M backend/tests/test_mcp.py
+ M backend/tests/test_scan.py
+ M backend/uv.lock
+ M plugins/audisor/skills/audisor-smart-trace/SKILL.md
+ M scripts/mcp_smoke.py
+?? .agents/skills/audisor-plan-review/
+?? AUDISOR_REPO_TRUTH.txt
+?? AUDISOR_SEARCH_1.txt
+?? AUDISOR_SEARCH_1B.txt
+?? AUDISOR_SEARCH_1C_HIDDEN.txt
+?? backend/src/audisor/normalization.py
+?? backend/src/audisor/schemas/
+?? backend/tests/test_llm_statement_schema.py
+?? backend/tests/test_normalization.py
+?? demo/fixture/tests/__pycache__/
+!! backend/.pytest_cache/
+!! backend/.venv/
+!! backend/dist/
+!! backend/src/audisor/__pycache__/
+!! backend/tests/__pycache__/
+
+================ EXACT REVIEW IMPLEMENTATION ================
+.\.agents\skills\audisor-plan-review\SKILL.md-7-
+.\.agents\skills\audisor-plan-review\SKILL.md-8-## How it works
+.\.agents\skills\audisor-plan-review\SKILL.md-9-
+.\.agents\skills\audisor-plan-review\SKILL.md:10:Audisor is a narrow plan qualifier, not a planner or executor. The host detects a **completed valid plan** by validating its structure against the plan-detection schema. When a valid plan is detected, the host calls `aflow_review` **exactly once** with `plan_digest="auto"`. Audisor computes the digest internally, reviews the immutable plan text, and returns a manifest with an outcome.
+.\.agents\skills\audisor-plan-review\SKILL.md-11-
+.\.agents\skills\audisor-plan-review\SKILL.md-12-The host interprets the outcome at a **decision gate**:
+.\.agents\skills\audisor-plan-review\SKILL.md-13-
+.\.agents\skills\audisor-plan-review\SKILL.md-14-| Outcome | Host action |
+.\.agents\skills\audisor-plan-review\SKILL.md-15-|---|---|
+.\.agents\skills\audisor-plan-review\SKILL.md-16-| `decision_required` | Stop before implementation. Request the stated human decision. |
+.\.agents\skills\audisor-plan-review\SKILL.md:17:| `supplement_ready` | Keep the original plan unchanged. Use companion artifacts as added implementation context. Proceed. |
+.\.agents\skills\audisor-plan-review\SKILL.md:18:| `no_material_gap` | Keep the original plan unchanged. No companion artifacts required. Proceed. |
+.\.agents\skills\audisor-plan-review\SKILL.md-19-
+.\.agents\skills\audisor-plan-review\SKILL.md-20-Audisor never rewrites the original plan, never executes code, and never writes files.
+.\.agents\skills\audisor-plan-review\SKILL.md-21-
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-40-|---|---|
+.\.agents\skills\audisor-plan-review\SKILL.md-41-| **plan** | A structured document with `plan_id`, ordered `steps`, and an `original_plan` text field. The source of truth for implementation. |
+.\.agents\skills\audisor-plan-review\SKILL.md-42-| **task** | A raw user request. May or may not include a plan. Audisor never receives raw tasks. |
+.\.agents\skills\audisor-plan-review\SKILL.md:43:| **aflow_review** | The MCP tool that reviews an immutable plan and returns additive companion artifacts. |
+.\.agents\skills\audisor-plan-review\SKILL.md:44:| **manifest** | The review result containing `outcome`, `plan_id`, `artifacts`, and optionally `plan_digest`. |
+.\.agents\skills\audisor-plan-review\SKILL.md:45:| **outcome** | One of `no_material_gap`, `supplement_ready`, `decision_required`. |
+.\.agents\skills\audisor-plan-review\SKILL.md:46:| **plan_digest="auto"** | Instructs Audisor to compute the SHA-256 digest of `original_plan` internally. Collapses "submit plan" and "call aflow_review" into one step. |
+.\.agents\skills\audisor-plan-review\SKILL.md-47-| **decision gate** | The host-side interpretation of the review outcome that determines whether to proceed, block, or request human input. |
+.\.agents\skills\audisor-plan-review\SKILL.md-48-| **companion artifacts** | Additive documents returned by Audisor (gap review, evaluation, validation fixtures, validation tests, plan update). Never modify the original plan. |
+.\.agents\skills\audisor-plan-review\SKILL.md-49-| **source_kind** | `"plan"` for completed plans; `"task"` for raw user requests. Only `"plan"` triggers automatic review. |
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-57-```json
+.\.agents\skills\audisor-plan-review\SKILL.md-58-{
+.\.agents\skills\audisor-plan-review\SKILL.md-59-  "$schema": "https://json-schema.org/draft/2020-12/schema",
+.\.agents\skills\audisor-plan-review\SKILL.md:60:  "$id": "https://theoneshot.dev/schemas/aflow/v1/plan-detection.schema.json",
+.\.agents\skills\audisor-plan-review\SKILL.md-61-  "title": "Audisor Plan Detection",
+.\.agents\skills\audisor-plan-review\SKILL.md-62-  "description": "Defines a completed valid plan that automatically triggers Audisor review. No hashing or task-kind classification is used for detection. The host validates plan structure only.",
+.\.agents\skills\audisor-plan-review\SKILL.md-63-  "type": "object",
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-99-    "original_plan": {
+.\.agents\skills\audisor-plan-review\SKILL.md-100-      "type": "string",
+.\.agents\skills\audisor-plan-review\SKILL.md-101-      "minLength": 1,
+.\.agents\skills\audisor-plan-review\SKILL.md:102:      "description": "The full immutable plan text passed verbatim to aflow_review."
+.\.agents\skills\audisor-plan-review\SKILL.md-103-    },
+.\.agents\skills\audisor-plan-review\SKILL.md-104-    "evidence_gates": {
+.\.agents\skills\audisor-plan-review\SKILL.md-105-      "type": "array",
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-149-
+.\.agents\skills\audisor-plan-review\SKILL.md-150-## Tool parameters
+.\.agents\skills\audisor-plan-review\SKILL.md-151-
+.\.agents\skills\audisor-plan-review\SKILL.md:152:Call `aflow_review` exactly once per plan.
+.\.agents\skills\audisor-plan-review\SKILL.md-153-
+.\.agents\skills\audisor-plan-review\SKILL.md-154-| Parameter | Type | Required | Description |
+.\.agents\skills\audisor-plan-review\SKILL.md-155-|---|---|---|---|
+.\.agents\skills\audisor-plan-review\SKILL.md-156-| `original_plan` | `string` | Yes | The unchanged plan text. Never substitute raw task text. |
+.\.agents\skills\audisor-plan-review\SKILL.md-157-| `plan_id` | `string` | Yes | A stable, non-empty identifier. |
+.\.agents\skills\audisor-plan-review\SKILL.md:158:| `plan_digest` | `string` | No | `"auto"` to compute internally, or a 64-char hex SHA-256. Defaults to `"auto"`. |
+.\.agents\skills\audisor-plan-review\SKILL.md-159-
+.\.agents\skills\audisor-plan-review\SKILL.md-160-## Returns and interpretation
+.\.agents\skills\audisor-plan-review\SKILL.md-161-
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-167-    "schema_version": "1.0.0",
+.\.agents\skills\audisor-plan-review\SKILL.md-168-    "plan_id": "<plan_id>",
+.\.agents\skills\audisor-plan-review\SKILL.md-169-    "outcome": "<outcome>",
+.\.agents\skills\audisor-plan-review\SKILL.md:170:    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"],
+.\.agents\skills\audisor-plan-review\SKILL.md:171:    "plan_digest": "<sha256>"
+.\.agents\skills\audisor-plan-review\SKILL.md-172-  },
+.\.agents\skills\audisor-plan-review\SKILL.md-173-  "artifacts": {
+.\.agents\skills\audisor-plan-review\SKILL.md-174-    "manifest.json": "<canonical_json>",
+.\.agents\skills\audisor-plan-review\SKILL.md-175-    "gap-review.json": "<findings_and_decisions>",
+.\.agents\skills\audisor-plan-review\SKILL.md:176:    "gap-fulfillment.md": "<markdown>",
+.\.agents\skills\audisor-plan-review\SKILL.md-177-    "evaluation.json": "<success_criteria>",
+.\.agents\skills\audisor-plan-review\SKILL.md:178:    "validation-fixtures.json": "<fixtures>",
+.\.agents\skills\audisor-plan-review\SKILL.md:179:    "validation-tests.json": "<tests>",
+.\.agents\skills\audisor-plan-review\SKILL.md-180-    "plan-update.md": "<markdown>"
+.\.agents\skills\audisor-plan-review\SKILL.md-181-  }
+.\.agents\skills\audisor-plan-review\SKILL.md-182-}
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-184-
+.\.agents\skills\audisor-plan-review\SKILL.md-185-### Outcome interpretation
+.\.agents\skills\audisor-plan-review\SKILL.md-186-
+.\.agents\skills\audisor-plan-review\SKILL.md:187:- **`no_material_gap`**: The plan is clean. Proceed with implementation using the original plan unchanged. Companion artifacts are optional context.
+.\.agents\skills\audisor-plan-review\SKILL.md:188:- **`supplement_ready`**: The plan is clean but Audisor found missing context (success criteria, validation, fixtures). Proceed with the original plan unchanged. Apply companion artifacts as additive implementation context.
+.\.agents\skills\audisor-plan-review\SKILL.md-189-- **`decision_required`**: The plan contains unresolved design decisions. **Stop.** Request human resolution before implementation. Do not proceed.
+.\.agents\skills\audisor-plan-review\SKILL.md-190-
+.\.agents\skills\audisor-plan-review\SKILL.md-191-## Examples
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-218-}
+.\.agents\skills\audisor-plan-review\SKILL.md-219-```
+.\.agents\skills\audisor-plan-review\SKILL.md-220-
+.\.agents\skills\audisor-plan-review\SKILL.md:221:### Example 2: aflow_review call
+.\.agents\skills\audisor-plan-review\SKILL.md-222-
+.\.agents\skills\audisor-plan-review\SKILL.md-223-```json
+.\.agents\skills\audisor-plan-review\SKILL.md-224-{
+.\.agents\skills\audisor-plan-review\SKILL.md-225-  "original_plan": "## Authentication Feature\n\n1. Add JWT middleware...\n2. Update user model...\n3. Add tests...",
+.\.agents\skills\audisor-plan-review\SKILL.md-226-  "plan_id": "feature-auth-001",
+.\.agents\skills\audisor-plan-review\SKILL.md:227:  "plan_digest": "auto"
+.\.agents\skills\audisor-plan-review\SKILL.md-228-}
+.\.agents\skills\audisor-plan-review\SKILL.md-229-```
+.\.agents\skills\audisor-plan-review\SKILL.md-230-
+.\.agents\skills\audisor-plan-review\SKILL.md:231:### Example 3: no_material_gap response ΓåÆ proceed
+.\.agents\skills\audisor-plan-review\SKILL.md-232-
+.\.agents\skills\audisor-plan-review\SKILL.md-233-```json
+.\.agents\skills\audisor-plan-review\SKILL.md-234-{
+.\.agents\skills\audisor-plan-review\SKILL.md-235-  "manifest": {
+.\.agents\skills\audisor-plan-review\SKILL.md:236:    "outcome": "no_material_gap",
+.\.agents\skills\audisor-plan-review\SKILL.md-237-    "plan_id": "feature-auth-001",
+.\.agents\skills\audisor-plan-review\SKILL.md:238:    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+.\.agents\skills\audisor-plan-review\SKILL.md-239-  }
+.\.agents\skills\audisor-plan-review\SKILL.md-240-}
+.\.agents\skills\audisor-plan-review\SKILL.md-241-```
+.\.agents\skills\audisor-plan-review\SKILL.md-242-
+.\.agents\skills\audisor-plan-review\SKILL.md-243-**Host action**: Keep original plan unchanged. Proceed with implementation.
+.\.agents\skills\audisor-plan-review\SKILL.md-244-
+.\.agents\skills\audisor-plan-review\SKILL.md:245:### Example 4: supplement_ready response ΓåÆ proceed with context
+.\.agents\skills\audisor-plan-review\SKILL.md-246-
+.\.agents\skills\audisor-plan-review\SKILL.md-247-```json
+.\.agents\skills\audisor-plan-review\SKILL.md-248-{
+.\.agents\skills\audisor-plan-review\SKILL.md-249-  "manifest": {
+.\.agents\skills\audisor-plan-review\SKILL.md:250:    "outcome": "supplement_ready",
+.\.agents\skills\audisor-plan-review\SKILL.md-251-    "plan_id": "feature-auth-001",
+.\.agents\skills\audisor-plan-review\SKILL.md:252:    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md"]
+.\.agents\skills\audisor-plan-review\SKILL.md-253-  },
+.\.agents\skills\audisor-plan-review\SKILL.md-254-  "artifacts": {
+.\.agents\skills\audisor-plan-review\SKILL.md-255-    "gap-review.json": "{\"findings\":[{\"id\":\"validation\",\"reason\":\"Add a validation specification as a companion record.\"}]}"
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-266-  "manifest": {
+.\.agents\skills\audisor-plan-review\SKILL.md-267-    "outcome": "decision_required",
+.\.agents\skills\audisor-plan-review\SKILL.md-268-    "plan_id": "feature-auth-001",
+.\.agents\skills\audisor-plan-review\SKILL.md:269:    "artifacts": ["gap-review.json", "gap-fulfillment.md", "evaluation.json", "validation-fixtures.json", "validation-tests.json", "plan-update.md", "decision-required.json"]
+.\.agents\skills\audisor-plan-review\SKILL.md-270-  },
+.\.agents\skills\audisor-plan-review\SKILL.md-271-  "artifacts": {
+.\.agents\skills\audisor-plan-review\SKILL.md:272:    "decision-required.json": "{\"decisions\":[{\"id\":\"design-decision-required\",\"reason\":\"The plan explicitly requires a design decision. Audisor must not invent that decision.\"}]}"
+.\.agents\skills\audisor-plan-review\SKILL.md-273-  }
+.\.agents\skills\audisor-plan-review\SKILL.md-274-}
+.\.agents\skills\audisor-plan-review\SKILL.md-275-```
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-280-
+.\.agents\skills\audisor-plan-review\SKILL.md-281-For any agent (not only Codex), when a completed valid plan is detected, the Audisor review triggers **automatically**. The host:
+.\.agents\skills\audisor-plan-review\SKILL.md-282-
+.\.agents\skills\audisor-plan-review\SKILL.md:283:1. Validates the plan document against the plan-detection schema
+.\.agents\skills\audisor-plan-review\SKILL.md:284:2. Calls `aflow_review` with `plan_digest="auto"`
+.\.agents\skills\audisor-plan-review\SKILL.md-285-3. Interprets the outcome at the decision gate
+.\.agents\skills\audisor-plan-review\SKILL.md-286-4. Returns the decision to the agent workflow
+.\.agents\skills\audisor-plan-review\SKILL.md-287-
+.\.agents\skills\audisor-plan-review\SKILL.md:288:The automatic trigger works for **any agent**. The bridge accepts an `agent_identity` parameter that records which agent owns the resulting lock. When omitted, it defaults to `"primary_codex"` for backward compatibility.
+.\.agents\skills\audisor-plan-review\SKILL.md-289-
+.\.agents\skills\audisor-plan-review\SKILL.md-290-## Error handling
+.\.agents\skills\audisor-plan-review\SKILL.md-291-
+.\.agents\skills\audisor-plan-review\SKILL.md-292-If the MCP tool is unavailable, report the missing local Audisor configuration. Do not replace Audisor with another agent or cloud model.
+.\.agents\skills\audisor-plan-review\SKILL.md-293-
+.\.agents\skills\audisor-plan-review\SKILL.md:294:If `aflow_review` returns an error, the bridge returns `decision: "blocked"` with the error reason.
+.\.agents\skills\audisor-plan-review\SKILL.md-295-
+.\.agents\skills\audisor-plan-review\SKILL.md:296:If the review outcome is unexpected (not `no_material_gap`, `supplement_ready`, or `decision_required`), the bridge returns `decision: "blocked"`.
+
+================ DEFINITION OR CALLER ================
+
+================ BRIDGE LOCK OR HOST ================
+.\.agents\skills\audisor-plan-review\SKILL.md-125-      },
+.\.agents\skills\audisor-plan-review\SKILL.md-126-      "then": {
+.\.agents\skills\audisor-plan-review\SKILL.md-127-        "properties": {
+.\.agents\skills\audisor-plan-review\SKILL.md:128:          "trigger_action": { "enum": ["auto_review", "direct_review"] }
+.\.agents\skills\audisor-plan-review\SKILL.md-129-        }
+.\.agents\skills\audisor-plan-review\SKILL.md-130-      }
+.\.agents\skills\audisor-plan-review\SKILL.md-131-    },
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-139-      },
+.\.agents\skills\audisor-plan-review\SKILL.md-140-      "then": {
+.\.agents\skills\audisor-plan-review\SKILL.md-141-        "properties": {
+.\.agents\skills\audisor-plan-review\SKILL.md:142:          "trigger_action": { "const": "skip" }
+.\.agents\skills\audisor-plan-review\SKILL.md-143-        }
+.\.agents\skills\audisor-plan-review\SKILL.md-144-      }
+.\.agents\skills\audisor-plan-review\SKILL.md-145-    }
+--
+.\.agents\skills\audisor-plan-review\SKILL.md-285-3. Interprets the outcome at the decision gate
+.\.agents\skills\audisor-plan-review\SKILL.md-286-4. Returns the decision to the agent workflow
+.\.agents\skills\audisor-plan-review\SKILL.md-287-
+.\.agents\skills\audisor-plan-review\SKILL.md:288:The automatic trigger works for **any agent**. The bridge accepts an `agent_identity` parameter that records which agent owns the resulting lock. When omitted, it defaults to `"primary_codex"` for backward compatibility.
+.\.agents\skills\audisor-plan-review\SKILL.md-289-
+.\.agents\skills\audisor-plan-review\SKILL.md-290-## Error handling
+.\.agents\skills\audisor-plan-review\SKILL.md-291-
+.\.agents\skills\audisor-plan-review\SKILL.md-292-If the MCP tool is unavailable, report the missing local Audisor configuration. Do not replace Audisor with another agent or cloud model.
+.\.agents\skills\audisor-plan-review\SKILL.md-293-
+.\.agents\skills\audisor-plan-review\SKILL.md:294:If `aflow_review` returns an error, the bridge returns `decision: "blocked"` with the error reason.
+.\.agents\skills\audisor-plan-review\SKILL.md-295-
+.\.agents\skills\audisor-plan-review\SKILL.md:296:If the review outcome is unexpected (not `no_material_gap`, `supplement_ready`, or `decision_required`), the bridge returns `decision: "blocked"`.
+
+================ ALTERNATE DATA STREAMS ================
+

@@ -1,0 +1,472 @@
+
+
+================ FILESYSTEM TIMELINE — OLDEST TO NEWEST ================
+
+FullName                                                                           Length CreationTime        LastWriteTime       CreationTimeUtc     LastWriteTimeUtc
+--------                                                                           ------ ------------        -------------       ---------------     ----------------
+D:\Dev\Theoneshot\audisor\.gitignore                                                  273 07/14/2026 11:50:19 07/19/2026 11:22:44 07/14/2026 18:50:19 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\README.md                                                  2120 07/14/2026 11:50:19 07/19/2026 12:29:52 07/14/2026 18:50:19 07/19/2026 19:29:52
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md               3732 07/15/2026 15:53:21 07/18/2026 17:00:07 07/15/2026 22:53:21 07/19/2026 0:00:07
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md             2594 07/15/2026 15:53:21 07/16/2026 22:05:15 07/15/2026 22:53:21 07/17/2026 5:05:15
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                    2296 07/15/2026 15:53:21 07/15/2026 15:53:21 07/15/2026 22:53:21 07/15/2026 22:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md               2150 07/15/2026 15:53:21 07/15/2026 15:53:21 07/15/2026 22:53:21 07/15/2026 22:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md              2252 07/15/2026 15:53:21 07/15/2026 15:53:21 07/15/2026 22:53:21 07/15/2026 22:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md                 2111 07/15/2026 15:53:21 07/15/2026 15:53:21 07/15/2026 22:53:21 07/15/2026 22:53:21
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                          174 07/15/2026 15:53:36 07/15/2026 16:36:52 07/15/2026 22:53:36 07/15/2026 23:36:52
+D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml                                 666 07/15/2026 15:53:36 07/15/2026 16:38:15 07/15/2026 22:53:36 07/15/2026 23:38:15
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                                 780 07/15/2026 15:53:36 07/15/2026 16:38:34 07/15/2026 22:53:36 07/15/2026 23:38:34
+D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml                                749 07/15/2026 15:53:36 07/15/2026 16:39:22 07/15/2026 22:53:36 07/15/2026 23:39:22
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md          2431 07/15/2026 15:54:14 07/18/2026 16:28:59 07/15/2026 22:54:14 07/18/2026 23:28:59
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md                 1892 07/15/2026 15:54:14 07/15/2026 15:54:14 07/15/2026 22:54:14 07/15/2026 22:54:14
+D:\Dev\Theoneshot\audisor\backend\pyproject.toml                                      702 07/19/2026 2:18:27  07/19/2026 12:31:14 07/19/2026 9:18:27  07/19/2026 19:31:14
+D:\Dev\Theoneshot\audisor\backend\README.md                                          3462 07/19/2026 2:18:27  07/19/2026 12:34:55 07/19/2026 9:18:27  07/19/2026 19:34:55
+D:\Dev\Theoneshot\audisor\backend\src\audisor\__init__.py                             443 07/19/2026 2:18:27  07/19/2026 5:19:42  07/19/2026 9:18:27  07/19/2026 12:19:42
+D:\Dev\Theoneshot\audisor\backend\src\audisor\cli.py                                 6197 07/19/2026 2:18:27  07/19/2026 12:29:51 07/19/2026 9:18:27  07/19/2026 19:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\contracts.py                           1751 07/19/2026 2:50:15  07/19/2026 5:05:58  07/19/2026 9:50:15  07/19/2026 12:05:58
+D:\Dev\Theoneshot\audisor\backend\uv.lock                                          177406 07/19/2026 2:50:50  07/19/2026 12:30:03 07/19/2026 9:50:50  07/19/2026 19:30:03
+D:\Dev\Theoneshot\audisor\backend\src\audisor\finding_registry.py                    3982 07/19/2026 4:28:51  07/19/2026 10:14:34 07/19/2026 11:28:51 07/19/2026 17:14:34
+D:\Dev\Theoneshot\audisor\backend\src\audisor\scanner.py                            19375 07/19/2026 4:28:51  07/19/2026 10:54:13 07/19/2026 11:28:51 07/19/2026 17:54:13
+D:\Dev\Theoneshot\audisor\backend\src\audisor\gap_contract.py                        2556 07/19/2026 4:33:11  07/19/2026 4:34:26  07/19/2026 11:33:11 07/19/2026 11:34:26
+D:\Dev\Theoneshot\audisor\backend\src\audisor\artifacts.py                           5922 07/19/2026 4:52:31  07/19/2026 10:57:26 07/19/2026 11:52:31 07/19/2026 17:57:26
+D:\Dev\Theoneshot\audisor\backend\src\audisor\inspection.py                          1589 07/19/2026 4:53:37  07/19/2026 5:05:58  07/19/2026 11:53:37 07/19/2026 12:05:58
+D:\Dev\Theoneshot\audisor\backend\src\audisor\validation.py                          2724 07/19/2026 4:53:37  07/19/2026 4:53:37  07/19/2026 11:53:37 07/19/2026 11:53:37
+D:\Dev\Theoneshot\audisor\backend\src\audisor\replay.py                              9752 07/19/2026 4:53:37  07/19/2026 12:29:51 07/19/2026 11:53:37 07/19/2026 19:29:51
+D:\Dev\Theoneshot\audisor\backend\tests\test_inspect_replay.py                      15378 07/19/2026 4:54:45  07/19/2026 12:29:51 07/19/2026 11:54:45 07/19/2026 19:29:51
+D:\Dev\Theoneshot\audisor\backend\tests\test_scan.py                                 8037 07/19/2026 5:06:34  07/19/2026 12:31:14 07/19/2026 12:06:34 07/19/2026 19:31:14
+D:\Dev\Theoneshot\audisor\backend\src\audisor\mcp_server.py                          3730 07/19/2026 5:19:42  07/19/2026 12:29:51 07/19/2026 12:19:42 07/19/2026 19:29:51
+D:\Dev\Theoneshot\audisor\backend\tests\test_mcp.py                                  6413 07/19/2026 5:20:25  07/19/2026 12:31:14 07/19/2026 12:20:25 07/19/2026 19:31:14
+D:\Dev\Theoneshot\audisor\backend\src\audisor\trace.py                               8587 07/19/2026 10:42:11 07/19/2026 10:42:11 07/19/2026 17:42:11 07/19/2026 17:42:11
+D:\Dev\Theoneshot\audisor\backend\tests\test_trace.py                                3287 07/19/2026 10:42:56 07/19/2026 10:42:56 07/19/2026 17:42:56 07/19/2026 17:42:56
+D:\Dev\Theoneshot\audisor\scripts\install.ps1                                         372 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\scripts\install.sh                                          329 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\scripts\install-docker.ps1                                  436 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\scripts\install-docker.sh                                   393 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\scripts\run_demo.py                                        4299 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\pyproject.toml                                 100 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\__init__.py                                 32 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\service.py                                  95 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\main.py                                     80 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\tests\test_service.py                          155 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\docker\Dockerfile                                           362 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\.dockerignore                                               132 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                  1158 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json                                    99 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md        2256 07/19/2026 11:22:44 07/19/2026 12:29:52 07/19/2026 18:22:44 07/19/2026 19:29:52
+D:\Dev\Theoneshot\audisor\marketplace.json                                            361 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\JUDGE_QUICKSTART.md                                        2114 07/19/2026 11:22:44 07/19/2026 12:29:52 07/19/2026 18:22:44 07/19/2026 19:29:52
+D:\Dev\Theoneshot\audisor\LICENSE                                                   10173 07/19/2026 11:22:44 07/19/2026 11:22:44 07/19/2026 18:22:44 07/19/2026 18:22:44
+D:\Dev\Theoneshot\audisor\backend\tests\test_release_assets.py                       2105 07/19/2026 11:22:44 07/19/2026 11:23:16 07/19/2026 18:22:44 07/19/2026 18:23:16
+D:\Dev\Theoneshot\audisor\scripts\release_smoke.py                                   1655 07/19/2026 11:22:44 07/19/2026 11:25:31 07/19/2026 18:22:44 07/19/2026 18:25:31
+D:\Dev\Theoneshot\audisor\scripts\mcp_smoke.py                                       1598 07/19/2026 11:22:44 07/19/2026 12:29:52 07/19/2026 18:22:44 07/19/2026 19:29:52
+D:\Dev\Theoneshot\audisor\.github\workflows\release-verify.yml                       1413 07/19/2026 11:22:44 07/19/2026 11:23:16 07/19/2026 18:22:44 07/19/2026 18:23:16
+D:\Dev\Theoneshot\audisor\backend\tests\test_llm_statement_schema.py                 2997 07/19/2026 12:17:53 07/19/2026 12:31:14 07/19/2026 19:17:53 07/19/2026 19:31:14
+D:\Dev\Theoneshot\audisor\backend\src\audisor\normalization.py                       2967 07/19/2026 12:29:51 07/19/2026 12:31:14 07/19/2026 19:29:51 07/19/2026 19:31:14
+D:\Dev\Theoneshot\audisor\backend\tests\test_normalization.py                        3896 07/19/2026 12:29:51 07/19/2026 12:29:51 07/19/2026 19:29:51 07/19/2026 19:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\schemas\v1\llm-statement.schema.json   5132 07/19/2026 12:31:55 07/19/2026 12:33:51 07/19/2026 19:31:55 07/19/2026 19:33:51
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md               12064 07/19/2026 18:41:47 07/19/2026 18:53:35 07/20/2026 1:41:47  07/20/2026 1:53:35
+
+
+
+================ FILESYSTEM TIMELINE — NEWEST FIRST ================
+
+FullName                                                                           Length CreationTime        LastWriteTime
+--------                                                                           ------ ------------        -------------
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md               12064 07/19/2026 18:41:47 07/19/2026 18:53:35
+D:\Dev\Theoneshot\audisor\backend\README.md                                          3462 07/19/2026 2:18:27  07/19/2026 12:34:55
+D:\Dev\Theoneshot\audisor\backend\src\audisor\schemas\v1\llm-statement.schema.json   5132 07/19/2026 12:31:55 07/19/2026 12:33:51
+D:\Dev\Theoneshot\audisor\backend\tests\test_mcp.py                                  6413 07/19/2026 5:20:25  07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\tests\test_scan.py                                 8037 07/19/2026 5:06:34  07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\tests\test_llm_statement_schema.py                 2997 07/19/2026 12:17:53 07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\src\audisor\normalization.py                       2967 07/19/2026 12:29:51 07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\pyproject.toml                                      702 07/19/2026 2:18:27  07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\uv.lock                                          177406 07/19/2026 2:50:50  07/19/2026 12:30:03
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md        2256 07/19/2026 11:22:44 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\JUDGE_QUICKSTART.md                                        2114 07/19/2026 11:22:44 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\README.md                                                  2120 07/14/2026 11:50:19 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\scripts\mcp_smoke.py                                       1598 07/19/2026 11:22:44 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\backend\tests\test_inspect_replay.py                      15378 07/19/2026 4:54:45  07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\backend\tests\test_normalization.py                        3896 07/19/2026 12:29:51 07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\replay.py                              9752 07/19/2026 4:53:37  07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\mcp_server.py                          3730 07/19/2026 5:19:42  07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\cli.py                                 6197 07/19/2026 2:18:27  07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\scripts\release_smoke.py                                   1655 07/19/2026 11:22:44 07/19/2026 11:25:31
+D:\Dev\Theoneshot\audisor\.github\workflows\release-verify.yml                       1413 07/19/2026 11:22:44 07/19/2026 11:23:16
+D:\Dev\Theoneshot\audisor\backend\tests\test_release_assets.py                       2105 07/19/2026 11:22:44 07/19/2026 11:23:16
+D:\Dev\Theoneshot\audisor\LICENSE                                                   10173 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\marketplace.json                                            361 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json                  1158 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json                                    99 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\.dockerignore                                               132 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\tests\test_service.py                          155 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\docker\Dockerfile                                           362 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\main.py                                     80 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\service.py                                  95 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\__init__.py                                 32 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\pyproject.toml                                 100 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\run_demo.py                                        4299 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install-docker.sh                                   393 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install-docker.ps1                                  436 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install.sh                                          329 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install.ps1                                         372 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\.gitignore                                                  273 07/14/2026 11:50:19 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\backend\src\audisor\artifacts.py                           5922 07/19/2026 4:52:31  07/19/2026 10:57:26
+D:\Dev\Theoneshot\audisor\backend\src\audisor\scanner.py                            19375 07/19/2026 4:28:51  07/19/2026 10:54:13
+D:\Dev\Theoneshot\audisor\backend\tests\test_trace.py                                3287 07/19/2026 10:42:56 07/19/2026 10:42:56
+D:\Dev\Theoneshot\audisor\backend\src\audisor\trace.py                               8587 07/19/2026 10:42:11 07/19/2026 10:42:11
+D:\Dev\Theoneshot\audisor\backend\src\audisor\finding_registry.py                    3982 07/19/2026 4:28:51  07/19/2026 10:14:34
+D:\Dev\Theoneshot\audisor\backend\src\audisor\__init__.py                             443 07/19/2026 2:18:27  07/19/2026 5:19:42
+D:\Dev\Theoneshot\audisor\backend\src\audisor\inspection.py                          1589 07/19/2026 4:53:37  07/19/2026 5:05:58
+D:\Dev\Theoneshot\audisor\backend\src\audisor\contracts.py                           1751 07/19/2026 2:50:15  07/19/2026 5:05:58
+D:\Dev\Theoneshot\audisor\backend\src\audisor\validation.py                          2724 07/19/2026 4:53:37  07/19/2026 4:53:37
+D:\Dev\Theoneshot\audisor\backend\src\audisor\gap_contract.py                        2556 07/19/2026 4:33:11  07/19/2026 4:34:26
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md               3732 07/15/2026 15:53:21 07/18/2026 17:00:07
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md          2431 07/15/2026 15:54:14 07/18/2026 16:28:59
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md             2594 07/15/2026 15:53:21 07/16/2026 22:05:15
+D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml                                749 07/15/2026 15:53:36 07/15/2026 16:39:22
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                                 780 07/15/2026 15:53:36 07/15/2026 16:38:34
+D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml                                 666 07/15/2026 15:53:36 07/15/2026 16:38:15
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                          174 07/15/2026 15:53:36 07/15/2026 16:36:52
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md                 1892 07/15/2026 15:54:14 07/15/2026 15:54:14
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md                 2111 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md              2252 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md                    2296 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md               2150 07/15/2026 15:53:21 07/15/2026 15:53:21
+
+
+
+================ SUSPICIOUS PLAN-REVIEW FILE ================
+
+FullName         : D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md
+Length           : 12064
+CreationTime     : 07/19/2026 18:41:47
+LastWriteTime    : 07/19/2026 18:53:35
+LastAccessTime   : 07/20/2026 5:51:01
+CreationTimeUtc  : 07/20/2026 1:41:47
+LastWriteTimeUtc : 07/20/2026 1:53:35
+Attributes       : Archive
+
+
+
+================ ALL AGENT AND SKILL FILES BY TIME ================
+
+FullName                                                                      Length CreationTime        LastWriteTime
+--------                                                                      ------ ------------        -------------
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md          3732 07/15/2026 15:53:21 07/18/2026 17:00:07
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md        2594 07/15/2026 15:53:21 07/16/2026 22:05:15
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md               2296 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md          2150 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md         2252 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md            2111 07/15/2026 15:53:21 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.codex\config.toml                                     174 07/15/2026 15:53:36 07/15/2026 16:36:52
+D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml                            666 07/15/2026 15:53:36 07/15/2026 16:38:15
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml                            780 07/15/2026 15:53:36 07/15/2026 16:38:34
+D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml                           749 07/15/2026 15:53:36 07/15/2026 16:39:22
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md     2431 07/15/2026 15:54:14 07/18/2026 16:28:59
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md            1892 07/15/2026 15:54:14 07/15/2026 15:54:14
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json             1158 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json                               99 07/19/2026 11:22:44 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md   2256 07/19/2026 11:22:44 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\.agents\skills\audisor-plan-review\SKILL.md          12064 07/19/2026 18:41:47 07/19/2026 18:53:35
+
+
+
+================ GIT TRACKING STATUS ================
+ D .agents/skills/init/SKILL.md
+ D .agents/skills/learn/SKILL.md
+ M JUDGE_QUICKSTART.md
+ M README.md
+ M backend/README.md
+ M backend/pyproject.toml
+ M backend/src/audisor/cli.py
+ M backend/src/audisor/mcp_server.py
+ M backend/src/audisor/replay.py
+ M backend/tests/test_inspect_replay.py
+ M backend/tests/test_mcp.py
+ M backend/tests/test_scan.py
+ M backend/uv.lock
+ M plugins/audisor/skills/audisor-smart-trace/SKILL.md
+ M scripts/mcp_smoke.py
+?? .agents/skills/audisor-plan-review/SKILL.md
+?? AUDISOR_REPO_TRUTH.txt
+?? AUDISOR_SEARCH_1.txt
+?? AUDISOR_SEARCH_1B.txt
+?? AUDISOR_SEARCH_1C_HIDDEN.txt
+?? AUDISOR_SEARCH_1_TIMELINE.txt
+?? backend/src/audisor/normalization.py
+?? backend/src/audisor/schemas/v1/llm-statement.schema.json
+?? backend/tests/test_llm_statement_schema.py
+?? backend/tests/test_normalization.py
+?? demo/fixture/tests/__pycache__/test_service.cpython-314-pytest-9.1.0.pyc
+
+================ FILES NOT TRACKED BY GIT ================
+.agents/skills/audisor-plan-review/SKILL.md
+AUDISOR_REPO_TRUTH.txt
+AUDISOR_SEARCH_1.txt
+AUDISOR_SEARCH_1B.txt
+AUDISOR_SEARCH_1C_HIDDEN.txt
+AUDISOR_SEARCH_1_TIMELINE.txt
+backend/src/audisor/normalization.py
+backend/src/audisor/schemas/v1/llm-statement.schema.json
+backend/tests/test_llm_statement_schema.py
+backend/tests/test_normalization.py
+demo/fixture/tests/__pycache__/test_service.cpython-314-pytest-9.1.0.pyc
+
+================ COMMIT TIMELINE ================
+COMMIT b7e1a70f825a8396120406f402ec9128ee157415
+AUTHOR_DATE  2026-07-19T11:28:05-07:00
+COMMIT_DATE  2026-07-19T11:28:05-07:00
+AUTHOR       Minh Le
+SUBJECT      Release Audisor public toolkit v0.2.0
+
+A	.dockerignore
+A	.github/workflows/release-verify.yml
+M	.gitignore
+A	JUDGE_QUICKSTART.md
+A	LICENSE
+M	README.md
+M	backend/README.md
+M	backend/pyproject.toml
+M	backend/src/audisor/artifacts.py
+M	backend/src/audisor/cli.py
+M	backend/src/audisor/mcp_server.py
+M	backend/src/audisor/replay.py
+M	backend/src/audisor/scanner.py
+A	backend/src/audisor/trace.py
+M	backend/tests/test_inspect_replay.py
+M	backend/tests/test_mcp.py
+A	backend/tests/test_release_assets.py
+A	backend/tests/test_trace.py
+M	backend/uv.lock
+A	demo/fixture/app/__init__.py
+A	demo/fixture/app/main.py
+A	demo/fixture/app/service.py
+A	demo/fixture/pyproject.toml
+A	demo/fixture/tests/test_service.py
+A	docker/Dockerfile
+A	marketplace.json
+A	plugins/audisor/.codex-plugin/plugin.json
+A	plugins/audisor/.mcp.json
+A	plugins/audisor/skills/audisor-smart-trace/SKILL.md
+A	scripts/install-docker.ps1
+A	scripts/install-docker.sh
+A	scripts/install.ps1
+A	scripts/install.sh
+A	scripts/mcp_smoke.py
+A	scripts/release_smoke.py
+A	scripts/run_demo.py
+COMMIT bf7ca5650c0890d2dc99b9b5d2946282df3677f5
+AUTHOR_DATE  2026-07-19T10:40:53-07:00
+COMMIT_DATE  2026-07-19T10:40:53-07:00
+AUTHOR       Minh Le
+SUBJECT      Initial Audisor Debug tool
+
+A	.agents/skills/active-path-inspection/SKILL.md
+A	.agents/skills/controlled-implementation/SKILL.md
+A	.agents/skills/evidence-reporting/SKILL.md
+A	.agents/skills/focused-validation/SKILL.md
+A	.agents/skills/init/SKILL.md
+A	.agents/skills/learn/SKILL.md
+A	.agents/skills/plan-gap-review/SKILL.md
+A	.agents/skills/repository-discovery/SKILL.md
+A	.agents/skills/requirement-coverage/SKILL.md
+A	.agents/skills/validation-gap-review/SKILL.md
+A	.codex/agents/explorer.toml
+A	.codex/agents/reviewer.toml
+A	.codex/agents/validator.toml
+A	.codex/config.toml
+A	.gitignore
+A	README.md
+A	backend/README.md
+A	backend/pyproject.toml
+A	backend/src/audisor/__init__.py
+A	backend/src/audisor/artifacts.py
+A	backend/src/audisor/cli.py
+A	backend/src/audisor/contracts.py
+A	backend/src/audisor/finding_registry.py
+A	backend/src/audisor/gap_contract.py
+A	backend/src/audisor/inspection.py
+A	backend/src/audisor/mcp_server.py
+A	backend/src/audisor/replay.py
+A	backend/src/audisor/scanner.py
+A	backend/src/audisor/validation.py
+A	backend/tests/test_inspect_replay.py
+A	backend/tests/test_mcp.py
+A	backend/tests/test_scan.py
+A	backend/uv.lock
+
+================ HISTORY OF RELEVANT PATHS ================
+
+--- .agents/skills ---
+bf7ca5650c0890d2dc99b9b5d2946282df3677f5 | author=2026-07-19T10:40:53-07:00 | commit=2026-07-19T10:40:53-07:00 | Minh Le | Initial Audisor Debug tool
+
+A	.agents/skills/active-path-inspection/SKILL.md
+A	.agents/skills/controlled-implementation/SKILL.md
+A	.agents/skills/evidence-reporting/SKILL.md
+A	.agents/skills/focused-validation/SKILL.md
+A	.agents/skills/init/SKILL.md
+A	.agents/skills/learn/SKILL.md
+A	.agents/skills/plan-gap-review/SKILL.md
+A	.agents/skills/repository-discovery/SKILL.md
+A	.agents/skills/requirement-coverage/SKILL.md
+A	.agents/skills/validation-gap-review/SKILL.md
+
+--- .codex ---
+bf7ca5650c0890d2dc99b9b5d2946282df3677f5 | author=2026-07-19T10:40:53-07:00 | commit=2026-07-19T10:40:53-07:00 | Minh Le | Initial Audisor Debug tool
+
+A	.codex/agents/explorer.toml
+A	.codex/agents/reviewer.toml
+A	.codex/agents/validator.toml
+A	.codex/config.toml
+
+--- plugins/audisor ---
+b7e1a70f825a8396120406f402ec9128ee157415 | author=2026-07-19T11:28:05-07:00 | commit=2026-07-19T11:28:05-07:00 | Minh Le | Release Audisor public toolkit v0.2.0
+
+A	plugins/audisor/.codex-plugin/plugin.json
+A	plugins/audisor/.mcp.json
+A	plugins/audisor/skills/audisor-smart-trace/SKILL.md
+
+--- backend/src/audisor ---
+b7e1a70f825a8396120406f402ec9128ee157415 | author=2026-07-19T11:28:05-07:00 | commit=2026-07-19T11:28:05-07:00 | Minh Le | Release Audisor public toolkit v0.2.0
+
+M	backend/src/audisor/artifacts.py
+M	backend/src/audisor/cli.py
+M	backend/src/audisor/mcp_server.py
+M	backend/src/audisor/replay.py
+M	backend/src/audisor/scanner.py
+A	backend/src/audisor/trace.py
+bf7ca5650c0890d2dc99b9b5d2946282df3677f5 | author=2026-07-19T10:40:53-07:00 | commit=2026-07-19T10:40:53-07:00 | Minh Le | Initial Audisor Debug tool
+
+A	backend/src/audisor/__init__.py
+A	backend/src/audisor/artifacts.py
+A	backend/src/audisor/cli.py
+A	backend/src/audisor/contracts.py
+A	backend/src/audisor/finding_registry.py
+A	backend/src/audisor/gap_contract.py
+A	backend/src/audisor/inspection.py
+A	backend/src/audisor/mcp_server.py
+A	backend/src/audisor/replay.py
+A	backend/src/audisor/scanner.py
+A	backend/src/audisor/validation.py
+
+--- scripts ---
+b7e1a70f825a8396120406f402ec9128ee157415 | author=2026-07-19T11:28:05-07:00 | commit=2026-07-19T11:28:05-07:00 | Minh Le | Release Audisor public toolkit v0.2.0
+
+A	scripts/install-docker.ps1
+A	scripts/install-docker.sh
+A	scripts/install.ps1
+A	scripts/install.sh
+A	scripts/mcp_smoke.py
+A	scripts/release_smoke.py
+A	scripts/run_demo.py
+
+================ SAME-TIME CLUSTERS ================
+
+CREATED: 2026-07-14 11:50:19 — 2 files
+
+FullName                             Length LastWriteTime
+--------                             ------ -------------
+D:\Dev\Theoneshot\audisor\.gitignore    273 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\README.md    2120 07/19/2026 12:29:52
+
+
+
+CREATED: 2026-07-15 15:53:21 — 6 files
+
+FullName                                                                 Length LastWriteTime
+--------                                                                 ------ -------------
+D:\Dev\Theoneshot\audisor\.agents\skills\active-path-inspection\SKILL.md   2594 07/16/2026 22:05:15
+D:\Dev\Theoneshot\audisor\.agents\skills\evidence-reporting\SKILL.md       2111 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\plan-gap-review\SKILL.md          2296 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\repository-discovery\SKILL.md     3732 07/18/2026 17:00:07
+D:\Dev\Theoneshot\audisor\.agents\skills\requirement-coverage\SKILL.md     2150 07/15/2026 15:53:21
+D:\Dev\Theoneshot\audisor\.agents\skills\validation-gap-review\SKILL.md    2252 07/15/2026 15:53:21
+
+
+
+CREATED: 2026-07-15 15:53:36 — 4 files
+
+FullName                                               Length LastWriteTime
+--------                                               ------ -------------
+D:\Dev\Theoneshot\audisor\.codex\config.toml              174 07/15/2026 16:36:52
+D:\Dev\Theoneshot\audisor\.codex\agents\explorer.toml     666 07/15/2026 16:38:15
+D:\Dev\Theoneshot\audisor\.codex\agents\reviewer.toml     780 07/15/2026 16:38:34
+D:\Dev\Theoneshot\audisor\.codex\agents\validator.toml    749 07/15/2026 16:39:22
+
+
+
+CREATED: 2026-07-15 15:54:14 — 2 files
+
+FullName                                                                    Length LastWriteTime
+--------                                                                    ------ -------------
+D:\Dev\Theoneshot\audisor\.agents\skills\controlled-implementation\SKILL.md   2431 07/18/2026 16:28:59
+D:\Dev\Theoneshot\audisor\.agents\skills\focused-validation\SKILL.md          1892 07/15/2026 15:54:14
+
+
+
+CREATED: 2026-07-19 02:18:27 — 4 files
+
+FullName                                                  Length LastWriteTime
+--------                                                  ------ -------------
+D:\Dev\Theoneshot\audisor\backend\pyproject.toml             702 07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\README.md                 3462 07/19/2026 12:34:55
+D:\Dev\Theoneshot\audisor\backend\src\audisor\__init__.py    443 07/19/2026 5:19:42
+D:\Dev\Theoneshot\audisor\backend\src\audisor\cli.py        6197 07/19/2026 12:29:51
+
+
+
+CREATED: 2026-07-19 04:28:51 — 2 files
+
+FullName                                                          Length LastWriteTime
+--------                                                          ------ -------------
+D:\Dev\Theoneshot\audisor\backend\src\audisor\finding_registry.py   3982 07/19/2026 10:14:34
+D:\Dev\Theoneshot\audisor\backend\src\audisor\scanner.py           19375 07/19/2026 10:54:13
+
+
+
+CREATED: 2026-07-19 04:53:37 — 3 files
+
+FullName                                                    Length LastWriteTime
+--------                                                    ------ -------------
+D:\Dev\Theoneshot\audisor\backend\src\audisor\inspection.py   1589 07/19/2026 5:05:58
+D:\Dev\Theoneshot\audisor\backend\src\audisor\replay.py       9752 07/19/2026 12:29:51
+D:\Dev\Theoneshot\audisor\backend\src\audisor\validation.py   2724 07/19/2026 4:53:37
+
+
+
+CREATED: 2026-07-19 11:22:44 — 22 files
+
+FullName                                                                      Length LastWriteTime
+--------                                                                      ------ -------------
+D:\Dev\Theoneshot\audisor\.dockerignore                                          132 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\JUDGE_QUICKSTART.md                                   2114 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\LICENSE                                              10173 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\marketplace.json                                       361 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\.github\workflows\release-verify.yml                  1413 07/19/2026 11:23:16
+D:\Dev\Theoneshot\audisor\backend\tests\test_release_assets.py                  2105 07/19/2026 11:23:16
+D:\Dev\Theoneshot\audisor\demo\fixture\pyproject.toml                            100 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\__init__.py                            32 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\main.py                                80 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\app\service.py                             95 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\demo\fixture\tests\test_service.py                     155 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\docker\Dockerfile                                      362 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.mcp.json                               99 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\.codex-plugin\plugin.json             1158 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\plugins\audisor\skills\audisor-smart-trace\SKILL.md   2256 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\scripts\install-docker.ps1                             436 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install-docker.sh                              393 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install.ps1                                    372 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\install.sh                                     329 07/19/2026 11:22:44
+D:\Dev\Theoneshot\audisor\scripts\mcp_smoke.py                                  1598 07/19/2026 12:29:52
+D:\Dev\Theoneshot\audisor\scripts\release_smoke.py                              1655 07/19/2026 11:25:31
+D:\Dev\Theoneshot\audisor\scripts\run_demo.py                                   4299 07/19/2026 11:22:44
+
+
+
+CREATED: 2026-07-19 12:29:51 — 2 files
+
+FullName                                                       Length LastWriteTime
+--------                                                       ------ -------------
+D:\Dev\Theoneshot\audisor\backend\src\audisor\normalization.py   2967 07/19/2026 12:31:14
+D:\Dev\Theoneshot\audisor\backend\tests\test_normalization.py    3896 07/19/2026 12:29:51
+
+

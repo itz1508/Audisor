@@ -8,6 +8,7 @@ from mcp.server.fastmcp import FastMCP
 from .artifacts import ArtifactError
 from .contracts import ContractError, InspectionRequest
 from .inspection import inspect_repository
+from .normalization import normalize_inspection
 from .replay import replay_inspection
 from .scanner import scan_report
 from .trace import trace_inspection
@@ -53,6 +54,14 @@ def create_server() -> FastMCP:
             return inspect_repository(request)
         except (ArtifactError, ContractError, ValueError) as exc:
             return _error("invalid_inspection_request", str(exc))
+
+    @server.tool(name="audisor_normalize")
+    def audisor_normalize(inspection: dict[str, Any], llm_statement: dict[str, Any]) -> dict[str, Any]:
+        """Create a no-snapshot Normalize Package from Inspection, Dossier, Handoff, and an LLM Statement."""
+        try:
+            return normalize_inspection(inspection, llm_statement)
+        except (ArtifactError, ValueError) as exc:
+            return _error("normalization_blocked", str(exc))
 
     @server.tool(name="audisor_validate")
     def audisor_validate(inspection: dict[str, Any], evaluation: dict[str, Any]) -> dict[str, Any]:

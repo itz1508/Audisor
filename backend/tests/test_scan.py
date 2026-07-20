@@ -134,7 +134,7 @@ class ScanTests(unittest.TestCase):
             result = subprocess.run([sys.executable, "-m", "audisor.cli", "scan", str(root), "--json"], capture_output=True, text=True, check=True)
             help_result = subprocess.run([sys.executable, "-m", "audisor.cli", "--help"], capture_output=True, text=True, check=True)
         self.assertIn("schema_version", json.loads(result.stdout))
-        self.assertNotIn("normalize", help_result.stdout)
+        self.assertIn("normalize", help_result.stdout)
 
 
 if __name__ == "__main__":

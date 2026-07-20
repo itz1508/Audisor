@@ -18,12 +18,16 @@ agent, writer, hook, or substitute for Codex's repair judgment.
    unknown; an entrypoint may reach the code; the issue spans multiple files;
    a duplicate or overlap needs ownership evidence; or the scan has a relevant
    uncertainty. Do not trace a simple scoped edit with a known call path.
-3. Classify every inspection finding as `valid`, `not_valid`, or `uncertainty`.
+3. When the repair depends on semantic diagnosis, create an LLM Statement and
+   call `audisor_normalize`. The Normalize Package contains Dossier, Handoff,
+   and statement references only; it never contains snapshot content. Skip this
+   step for a purely deterministic finding that already has sufficient evidence.
+4. Classify every inspection finding as `valid`, `not_valid`, or `uncertainty`.
    Only a `valid` finding has a closure, included/excluded paths, measurable
    success criteria, and a focused validator.
-4. Call `audisor_validate` before modifying source. If it blocks, do not repair.
-5. Codex performs only the validated repair. Then call `audisor_replay` to
-   connect original evidence, changed scope, current scan, and resolution.
+5. Call `audisor_validate` before modifying source. If it blocks, do not repair.
+6. Codex performs only the validated repair. Call `audisor_replay` only when a
+   final review summary is useful; Replay is not an approval gate.
 
 ## Boundaries
 
