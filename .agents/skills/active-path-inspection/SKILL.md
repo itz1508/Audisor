@@ -1,7 +1,7 @@
 ---
 name: active-path-inspection
 description: |
-  Use this read-only skill when the task requires tracing Audisor's active implementation through definitions, imports, callers, canonical entrypoints,packaging, schemas, tests, or deployment boundaries. Do not trigger for a repository orientation scan (use repository-discovery), explanations (use learn), setup/configuration (use init), plan review, requirement scoring, validator sufficiency review, or implementation/debugging by itself.
+  Use this read-only skill when the task requires tracing Audisor's active implementation through definitions, imports, callers, canonical entrypoints,packaging, schemas, tests, or deployment boundaries. Do not trigger for a repository orientation scan (use repository-discovery), explanations, setup/configuration, plan review, requirement scoring, validator sufficiency review, or implementation/debugging by itself.
 ---
 
 # Active Path Inspection

@@ -4,8 +4,8 @@ description: |
   Use this read-only skill when a substantive Audisor task needs the current
   repository root, branch, HEAD, dirty state, applicable AGENTS.md files,
   relevant directory structure, or initial scope established before diagnosis
-  or implementation. Do not trigger for setup/configuration requests (use
-  init), explanations (use learn), active call-path tracing (use
+  or implementation. Do not trigger for setup/configuration requests,
+  explanations, active call-path tracing (use
   active-path-inspection), plan review, validation sufficiency review, or
   ordinary implementation/debugging/testing.
 ---

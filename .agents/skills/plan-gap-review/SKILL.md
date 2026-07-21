@@ -3,8 +3,8 @@ name: plan-gap-review
 description: |
   Use this read-only skill when an existing Audisor draft plan or design needs
   an independent gap review before execution. Trigger only when a plan is
-  already present. Do not trigger to create a plan, perform setup/configuration
-  (use init), explain the workflow (use learn), implement changes, or validate
+  already present. Do not trigger to create a plan, perform setup/configuration,
+  explain the workflow, implement changes, or validate
   runtime behavior.
 ---
 
@@ -24,7 +24,7 @@ dependencies, authority boundaries, rollback, and proposed validators.
 
 Do not edit the plan or repository, run implementation commands, approve the
 plan, expand scope, or invent missing evidence. Setup/configuration requests
-remain with init; conceptual questions remain with learn.
+and conceptual questions are outside this skill's scope.
 
 ## Required inputs and evidence
 
