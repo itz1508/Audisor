@@ -27,11 +27,22 @@ import subprocess
 import sys
 
 
-# Persistent but isolated: not inside the repo, not inside %TEMP%
-ISOLATED_CODEX_HOME = Path("C:/Users/itz15/AppData/Local/audisor_proof/codex_home")
-REAL_CODEX_CONFIG = Path("C:/Users/itz15/.codex/config.toml")
-NPM_BIN = Path(r"C:\Users\itz15\AppData\Roaming\npm")
+# Persistent but isolated: not inside the repo, not inside %TEMP%.
+# Paths are derived from the environment / home directory so the proof is
+# portable across machines (no hardcoded host paths). Override via env vars.
+_HOME = Path(os.environ.get("USERPROFILE") or Path.home())
+ISOLATED_CODEX_HOME = Path(
+    os.environ.get("AUDISOR_PROOF_CODEX_HOME") or (_HOME / "AppData" / "Local" / "audisor_proof" / "codex_home")
+)
+REAL_CODEX_CONFIG = Path(
+    os.environ.get("AUDISOR_PROOF_REAL_CODEX_CONFIG") or (_HOME / ".codex" / "config.toml")
+)
+NPM_BIN = Path(os.environ.get("AUDISOR_PROOF_NPM_BIN") or (_HOME / "AppData" / "Roaming" / "npm"))
 CODEX_CMD = NPM_BIN / "codex.cmd"
+
+# A placeholder unrelated repository path used only to seed the isolated config
+# with a pre-existing MCP entry; it is never executed by this proof.
+UNRELATED_REPO_PLACEHOLDER = os.environ.get("AUDISOR_PROOF_UNRELATED_REPO", "<UNRELATED_REPO>")
 
 
 def _resolve_codex() -> tuple[bool, str]:
@@ -57,7 +68,7 @@ def main() -> int:
     initial_config = (
         '[mcp_servers.aflow]\n'
         'command = "uv"\n'
-        'args = ["run", "--directory", "D:/Dev/Aflow_cli", "aflow", "mcp"]\n\n'
+        f'args = ["run", "--directory", "{UNRELATED_REPO_PLACEHOLDER}", "aflow", "mcp"]\n\n'
         '[mcp_servers.openaiDeveloperDocs]\n'
         'url = "https://developers.openai.com/mcp"\n'
     )
@@ -95,7 +106,7 @@ def main() -> int:
     audisor_entry_added = "[mcp_servers.audisor]" in content_1
     unrelated_entry_preserved = (
         "aflow" in content_1
-        and "D:/Dev/Aflow_cli" in content_1
+        and UNRELATED_REPO_PLACEHOLDER in content_1
         and "openaiDeveloperDocs" in content_1
     )
     # install-codex writes sys.executable as the interpreter

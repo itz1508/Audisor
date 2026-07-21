@@ -1,0 +1,25 @@
+{
+  "all_leaks_by_category": {
+    "clean_installed_mcp_proof.py": [
+      "<REPO_ROOT>"
+    ],
+    "codex_registration_proof.py": [
+      "<HOME>",
+      "<USER>"
+    ]
+  },
+  "evidence_files": [
+    "clean_install_result.json",
+    "clean_installed_mcp_result.json",
+    "cli_readonly_result.json",
+    "codex_registration_result.json",
+    "FREEZE_TOOL_CONTRACT.md"
+  ],
+  "evidence_files_portable": true,
+  "evidence_leaks_by_category": {},
+  "token_categories_scanned": [
+    "<HOME>",
+    "<REPO_ROOT>",
+    "<USER>"
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "bundle": "audisor-backend-recheck",
+  "entries": [
+    {
+      "path": "clean_install_proof.py",
+      "sha256": "55f320eda8f832bf0e426c270abe36a247245c9a0190703ac3876b92dea05cbc",
+      "size_bytes": 5237
+    },
+    {
+      "path": "clean_install_result.json",
+      "sha256": "1aec9ba77f51526e4be44792762fd5eac82de442b99d2cfb9f2c1b838690c560",
+      "size_bytes": 308
+    },
+    {
+      "path": "clean_install_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "clean_installed_mcp_proof.py",
+      "sha256": "f2006e05d018bc4bf10c6d4cf2d06e260d61b70639dac7f58dfe7eddb0e42296",
+      "size_bytes": 5328
+    },
+    {
+      "path": "clean_installed_mcp_result.json",
+      "sha256": "438ecc9871aa1d8e2f92164a1bc1be7bee61b3140369f26dc3466bd3fea9ebe8",
+      "size_bytes": 8836
+    },
+    {
+      "path": "clean_installed_mcp_stderr.txt",
+      "sha256": "7b97f3e9e0d47e09bf99723b37f4b2f702896f2ac6aa2b0290264ae63e7b48d6",
+      "size_bytes": 133
+    },
+    {
+      "path": "cli_readonly_proof.py",
+      "sha256": "104dfaba40832dce7ed7eba3363b91b33b1a849981fa7204e2fb1e3c13c46c5a",
+      "size_bytes": 7531
+    },
+    {
+      "path": "cli_readonly_result.json",
+      "sha256": "3e558106d36974f64ca83c9a531c956fa1816e6ff5eb1902b9ec7e77de33e3af",
+      "size_bytes": 329
+    },
+    {
+      "path": "codex_registration_proof.py",
+      "sha256": "2f8c5e34ff7a64e698ce28027b65e868683887353a3a1aa757dfd65c6bcb9aed",
+      "size_bytes": 6519
+    },
+    {
+      "path": "codex_registration_result.json",
+      "sha256": "7d741147e77e407efe59eec74c4a0f1076abc60776476d8817910de896a35cae",
+      "size_bytes": 1177
+    },
+    {
+      "path": "codex_registration_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    },
+    {
+      "path": "evidence_bundle_proof.py",
+      "sha256": "81f4c03d76d1703a676a00a972d71f9f1d006acce3dd1646a6c9563e749af6fa",
+      "size_bytes": 4975
+    },
+    {
+      "path": "FREEZE_TOOL_CONTRACT.md",
+      "sha256": "59e7f5171985ac1d4878f3a2a954a49aa258d51e007d167acfbcbef0517002b4",
+      "size_bytes": 5989
+    },
+    {
+      "path": "mcp_recheck_proof.py",
+      "sha256": "698b2448e5469301f3ca01c73beacb1e5a7b8968ccfec78ce46c952f65223aaa",
+      "size_bytes": 8996
+    },
+    {
+      "path": "mcp_stderr.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size_bytes": 0
+    }
+  ],
+  "file_count": 15
+}

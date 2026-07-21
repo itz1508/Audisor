@@ -2,6 +2,8 @@
 backend/.venv/
 backend/**/__pycache__/
 backend/**/*.py[cod]
+__pycache__/
+*.py[cod]
 
 # Node
 backend/node_modules/
@@ -18,3 +20,10 @@ backend/*.egg-info/
 backend/*.tgz
 demo-output/
 release-output/
+
+# Re-check temporary logs (sanitized results are tracked; raw stderr is not)
+backend/recheck/*_stderr.txt
+
+# Docker proof generated outputs (the proof script itself is tracked)
+docker/.fixture/
+docker/acceptance-report.json

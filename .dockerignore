@@ -1,11 +1,41 @@
+# Version control
 .git
+.gitignore
+
+# Agent / Codex configuration surfaces
 .agents
 .codex
+
+# Python virtual environments
+.venv
+**/.venv
 backend/.venv
+
+# Build / distribution output
 backend/dist
 backend/build
-backend/__pycache__
+dist
+build
+*.egg-info
+**/*.egg-info
+*.whl
+*.tgz
+
+# Byte-compiled / cache files
+__pycache__
 **/__pycache__
+*.py[cod]
+
+# Verification evidence and test suites are NOT part of the installed tool image
+backend/recheck
+backend/tests
+
+# Local run output / host evidence / temporary files
+backend/.runs
+backend/test_output
+.audisor
 demo-output
 release-output
 snapshot
+docker/.fixture
+docker/acceptance-report.json

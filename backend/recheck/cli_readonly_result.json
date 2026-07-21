@@ -1,0 +1,14 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "artifacts_outside_repo": true,
+    "inspect_ok": true,
+    "normalize_ok": true,
+    "only_our_repair_changed_repo": true,
+    "replay_ok": true,
+    "repo_unchanged_by_readonly_tools": true,
+    "scan_ok": true,
+    "trace_ok": true,
+    "validate_ok": true
+  }
+}

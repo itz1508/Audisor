@@ -1,0 +1,15 @@
+{
+  "all_checks_passed": true,
+  "audisor_entry_added": true,
+  "codex_executable_found": true,
+  "codex_path": "<HOME>\\AppData\\Roaming\\npm\\codex.cmd",
+  "idempotent_no_duplicate": true,
+  "install_first_run_ok": true,
+  "install_second_run_ok": true,
+  "interpreter_points_to_installed": true,
+  "isolated_codex_home": "<HOME>\\AppData\\Local\\audisor_proof\\codex_home",
+  "real_codex_config_untouched": true,
+  "res1_stdout": "{\"command\": [\"<HOME>\\\\AppData\\\\Roaming\\\\npm\\\\codex.CMD\", \"mcp\", \"add\", \"audisor\", \"--\", \"<REPO_ROOT>\\\\audisor\\\\backend\\\\.venv\\\\Scripts\\\\python.exe\", \"-m\", \"audisor.cli\", \"mcp\"], \"exit_code\": 0, \"status\": \"completed\", \"stderr\": \"\", \"stdout\": \"Added global MCP server 'audisor'.\\n\"}",
+  "res2_stdout": "{\"command\": [\"<HOME>\\\\AppData\\\\Roaming\\\\npm\\\\codex.CMD\", \"mcp\", \"add\", \"audisor\", \"--\", \"<REPO_ROOT>\\\\audisor\\\\backend\\\\.venv\\\\Scripts\\\\python.exe\", \"-m\", \"audisor.cli\", \"mcp\"], \"exit_code\": 0, \"status\": \"completed\", \"stderr\": \"\", \"stdout\": \"Added global MCP server 'audisor'.\\n\"}",
+  "unrelated_entry_preserved": true
+}

@@ -51,6 +51,9 @@ async def _test_installed_mcp(python_bin: Path, audisor_bin: Path, test_dir: Pat
 
 
 def main() -> int:
+    # Derive the backend directory from this file's location so the proof is
+    # portable across machines (no hardcoded host paths).
+    backend_dir = Path(__file__).resolve().parents[1]
     with tempfile.TemporaryDirectory() as tmp:
         tmp_path = Path(tmp)
         venv_dir = tmp_path / "venv"
@@ -59,9 +62,9 @@ def main() -> int:
         python_bin = venv_dir / ("Scripts" if sys.platform == "win32" else "bin") / "python.exe"
         audisor_bin = venv_dir / ("Scripts" if sys.platform == "win32" else "bin") / "audisor.exe"
 
-        wheel = Path("D:/Dev/Theoneshot/audisor/backend/dist/audisor_local-0.2.0-py3-none-any.whl")
+        wheel = backend_dir / "dist" / "audisor_local-0.2.0-py3-none-any.whl"
         if not wheel.is_file():
-            subprocess.run(["uv", "build"], cwd="D:/Dev/Theoneshot/audisor/backend", check=True)
+            subprocess.run(["uv", "build"], cwd=str(backend_dir), check=True)
 
         subprocess.run([str(python_bin), "-m", "pip", "install", str(wheel)], check=True)
 
@@ -74,7 +77,8 @@ def main() -> int:
             cwd=str(tmp_path),
         )
         imported_path = res.stdout.strip().replace("\\", "/")
-        resolves_to_site_packages = "site-packages" in imported_path and "D:/Dev/Theoneshot" not in imported_path
+        backend_forward = str(backend_dir).replace("\\", "/")
+        resolves_to_site_packages = "site-packages" in imported_path and backend_forward not in imported_path
 
         # 2. CLI --help
         res = subprocess.run([str(audisor_bin), "--help"], capture_output=True, text=True, cwd=str(tmp_path))

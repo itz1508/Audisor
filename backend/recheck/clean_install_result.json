@@ -1,0 +1,14 @@
+{
+  "all_checks_passed": true,
+  "checks": {
+    "help_ok": true,
+    "install_codex_ok": true,
+    "installed_non_editable": true,
+    "mcp_round_trip_ok": true,
+    "ran_outside_repo": true,
+    "scan_ok": true,
+    "venv_created": true,
+    "version_ok": true,
+    "wheel_built": true
+  }
+}
