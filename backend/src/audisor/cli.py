@@ -25,7 +25,12 @@ def _print(value: object, *, as_json: bool) -> None:
 
 
 def _install_codex() -> int:
-    command = ["codex", "mcp", "add", "audisor", "--", sys.executable, "-m", "audisor.cli", "mcp"]
+    import shutil
+
+    # On Windows, subprocess with shell=False cannot resolve .cmd files via PATHEXT
+    # unless the full path is used. shutil.which() handles PATHEXT-aware resolution.
+    codex_exe = shutil.which("codex") or "codex"
+    command = [codex_exe, "mcp", "add", "audisor", "--", sys.executable, "-m", "audisor.cli", "mcp"]
     try:
         completed = subprocess.run(command, check=False, capture_output=True, text=True)
     except FileNotFoundError:

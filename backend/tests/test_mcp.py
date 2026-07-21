@@ -89,7 +89,8 @@ class McpServerTests(unittest.TestCase):
 
     def test_install_codex_uses_the_public_bundle_command(self) -> None:
         completed = subprocess.CompletedProcess(["codex"], 0, stdout="registered", stderr="")
-        with patch("audisor.cli.subprocess.run", return_value=completed) as run:
+        with patch("shutil.which", return_value="codex"), \
+             patch("audisor.cli.subprocess.run", return_value=completed) as run:
             self.assertEqual(_install_codex(), 0)
         run.assert_called_once_with(
             ["codex", "mcp", "add", "audisor", "--", sys.executable, "-m", "audisor.cli", "mcp"],
@@ -101,3 +102,45 @@ class McpServerTests(unittest.TestCase):
     def test_install_codex_reports_missing_codex(self) -> None:
         with patch("audisor.cli.subprocess.run", side_effect=FileNotFoundError):
             self.assertEqual(_install_codex(), 3)
+
+    def test_unknown_property_is_rejected_at_runtime(self) -> None:
+        """Prove that the MCP server rejects unknown input properties through a real
+        stdio transport call, not merely by inspecting the JSON schema.
+
+        This test is the pytest-collected regression proof required by the
+        'MCP Input Schema Strictness' rule in Agents.md. It must remain here and
+        must be re-run after any MCP SDK upgrade or tool-registration change.
+        """
+        asyncio.run(self._unknown_property_rejected())
+
+    async def _unknown_property_rejected(self) -> None:
+        import tempfile
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / "app.py").write_text("x = 1\n", encoding="utf-8")
+            parameters = StdioServerParameters(command=sys.executable, args=["-m", "audisor.cli", "mcp"])
+            async with stdio_client(parameters) as (read, write):
+                async with ClientSession(read, write) as session:
+                    await session.initialize()
+
+                    # First confirm the schema advertises additionalProperties=false
+                    tools = {t.name: t for t in (await session.list_tools()).tools}
+                    scan_schema = tools["audisor_scan"].inputSchema
+                    self.assertFalse(
+                        scan_schema.get("additionalProperties", True),
+                        "audisor_scan inputSchema must emit additionalProperties=false",
+                    )
+
+                    # Then prove the server actually rejects the unknown property at
+                    # call time through the real transport — schema alone is not enough.
+                    result = await session.call_tool(
+                        "audisor_scan",
+                        {"repository_root": str(root), "unknown_extra_field": "should_be_rejected"},
+                    )
+                    # The MCP SDK wraps tool errors as isError=True content,
+                    # not as a raised exception on the client side.
+                    self.assertTrue(
+                        getattr(result, "isError", False),
+                        "Server must return isError=True when an unknown property is passed; "
+                        "got a successful result instead — unknown-property rejection is not enforced.",
+                    )

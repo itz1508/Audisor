@@ -87,6 +87,11 @@ def create_server() -> FastMCP:
         except ArtifactError as exc:
             return _error("trace_blocked", str(exc))
 
+    for tool in server._tool_manager.list_tools():
+        tool.fn_metadata.arg_model.model_config["extra"] = "forbid"
+        tool.fn_metadata.arg_model.model_rebuild(force=True)
+        tool.parameters = tool.fn_metadata.arg_model.model_json_schema(by_alias=True)
+
     return server
 
 
