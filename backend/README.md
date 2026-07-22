@@ -75,6 +75,3 @@ explicitly invoked.
 The scanner emits safe evidence only. It never returns a detected secret value.
 Git drift is evaluated only when `--baseline` is supplied; otherwise the report
 records baseline `uncertainty` rather than inventing drift.
-
-```powershell
-```
