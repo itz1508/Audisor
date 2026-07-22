@@ -27,7 +27,7 @@ def main() -> int:
         output = Path(directory) / "demo-output"
         demo = subprocess.run([str(python), str(args.repository_root / "scripts" / "run_demo.py"), "--output-root", str(output)], check=True, capture_output=True, text=True)
         summary = json.loads(demo.stdout)
-    if version.stdout.strip() != "audisor-local 0.2.0" or summary.get("status") != "completed":
+    if version.stdout.strip() != "audisor-local 0.9.0" or summary.get("status") != "completed":
         raise SystemExit("release_smoke_failed")
     print(json.dumps({"status": "completed", "wheel": args.wheel.name, "demo": summary}, ensure_ascii=True, sort_keys=True))
     return 0

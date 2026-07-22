@@ -1,6 +1,6 @@
 """Clean-installed MCP proof script.
 
-Builds current 0.2.0 wheel, installs non-editably into a fresh venv outside the repo,
+Builds current 0.9.0 wheel, installs non-editably into a fresh venv outside the repo,
 and executes all CLI help routes + full MCP stdio lifecycle from outside the source tree.
 """
 from __future__ import annotations
@@ -62,7 +62,7 @@ def main() -> int:
         python_bin = venv_dir / ("Scripts" if sys.platform == "win32" else "bin") / "python.exe"
         audisor_bin = venv_dir / ("Scripts" if sys.platform == "win32" else "bin") / "audisor.exe"
 
-        wheel = backend_dir / "dist" / "audisor_local-0.2.0-py3-none-any.whl"
+        wheel = backend_dir / "dist" / "audisor_local-0.9.0-py3-none-any.whl"
         if not wheel.is_file():
             subprocess.run(["uv", "build"], cwd=str(backend_dir), check=True)
 

@@ -24,18 +24,24 @@ server to Codex. Start a new Codex session before testing the tools.
 
 ## Docker path
 
-Prerequisite: Docker Engine. Build locally before registry publication:
+Prerequisite: Docker Engine. For the submitted public image, no GHCR login is required:
 
 ```sh
-docker build -f docker/Dockerfile -t audisor:0.2.0 .
-docker run --rm --read-only --user 10001:10001 \
-  -v "$PWD/demo/fixture:/workspace:ro" audisor:0.2.0 scan /workspace --json
+docker logout ghcr.io
+docker pull ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721
+docker run --rm ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721 --help
+docker run --rm ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721 scan --help
 ```
 
-After registry publication, `./scripts/install-docker.sh` or
-`./scripts/install-docker.ps1` pulls `ghcr.io/itz1508/audisor:0.2.0` and
-registers an equivalent stdio MCP transport. It does not mount a repository;
-mount one explicitly for a scan or inspection command.
+To scan a repository, mount it explicitly as read-only:
+
+```sh
+docker run --rm --read-only --user 10001:10001 \
+  -v "$PWD/demo/fixture:/workspace:ro" \
+  ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721 scan /workspace --json
+```
+
+`./scripts/install-docker.sh` and `./scripts/install-docker.ps1` default to `ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721` and register an equivalent stdio MCP transport. They do not mount a repository; mount one explicitly for a scan or inspection command.
 
 ## Codex plugin
 

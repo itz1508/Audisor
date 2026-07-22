@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 set -eu
 
-IMAGE="${AUDISOR_IMAGE:-ghcr.io/itz1508/audisor:0.2.0}"
+IMAGE="${AUDISOR_IMAGE:-ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721}"
 if ! command -v docker >/dev/null 2>&1; then
   printf '%s\n' 'Docker is required for the container installation path.' >&2
   exit 1

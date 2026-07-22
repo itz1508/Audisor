@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$Image = "ghcr.io/itz1508/audisor:0.2.0",
+    [string]$Image = "ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721",
     [switch]$SkipCodexRegistration
 )
 

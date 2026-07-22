@@ -42,7 +42,14 @@ python ./scripts/run_demo.py --output-root ./demo-output
 
 See [JUDGE_QUICKSTART.md](JUDGE_QUICKSTART.md) for native, Docker, and Codex
 plugin installation. Docker uses the same core and accepts a repository only
-through an explicit read-only `/workspace` mount.
+through an explicit read-only `/workspace` mount. The submitted public Docker
+image is:
+
+```text
+ghcr.io/itz1508/theoneshot-audisor-agent:submission-20260721
+```
+
+It was verified as anonymously pullable after `docker logout ghcr.io`.
 
 ## Boundaries
 
