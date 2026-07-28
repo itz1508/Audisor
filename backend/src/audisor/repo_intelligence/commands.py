@@ -184,6 +184,9 @@ def _execute_command(
         text=True,
         encoding="utf-8",
         errors="replace",
+        # POSIX: isolate the child in its own session so the timeout path's
+        # group termination can never signal the caller's process group.
+        start_new_session=(sys.platform != "win32"),
     )
 
     try:
