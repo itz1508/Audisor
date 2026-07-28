@@ -36,7 +36,21 @@ class McpServerTests(unittest.TestCase):
                 async with ClientSession(read, write) as session:
                     await session.initialize()
                     tool_names = {tool.name for tool in (await session.list_tools()).tools}
-                    self.assertEqual(tool_names, {"audisor_scan", "audisor_inspect", "audisor_normalize", "audisor_validate", "audisor_replay", "audisor_trace"})
+                    # Original tools plus new repository intelligence tools
+                    expected_tools = {
+                        "audisor_scan", "audisor_inspect", "audisor_normalize",
+                        "audisor_validate", "audisor_replay", "audisor_trace",
+                        "repo_status", "repo_tree", "index_repository", "index_status",
+                        "search_text", "read_file_range", "read_file_outline",
+                        "list_symbols", "find_symbol", "find_references", "find_imports",
+                        "dependency_neighbourhood", "git_status", "git_diff", "git_history",
+                        "git_show_file", "run_command", "run_validation", "operation_status",
+                        "refresh_paths", "operation_result",
+                        "parse_test_failures", "parse_python_traceback", "summarise_command_failure",
+                        "prepare_patch", "apply_patch",
+                        "create_gap", "find_gap", "gap_record",
+                    }
+                    self.assertEqual(tool_names, expected_tools)
                     scan = _result_json(await session.call_tool("audisor_scan", {"repository_root": str(root)}))
                     self.assertIn("findings", scan)
                     inspection = _result_json(
